@@ -35,7 +35,6 @@ def configure(cfg):
 
     cfg.check_boost(
         lib='filesystem serialization system',
-        cpp_standard = 'c++14',
         uselib_store='BOOST4CALIBTIC')
 
 
