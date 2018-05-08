@@ -60,6 +60,9 @@ def build(bld):
             'rant',
             'pywrap',
         ],
+        # gccxml requires non-variadic implementation of boost::variant for python wrappers
+        defines='BOOST_VARIANT_DO_NOT_USE_VARIADIC_TEMPLATES',
+        export_defines='BOOST_VARIANT_DO_NOT_USE_VARIADIC_TEMPLATES',
         install_path='${PREFIX}/lib',
     )
 
