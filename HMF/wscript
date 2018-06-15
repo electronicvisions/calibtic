@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+import os
+
+
+def depends(ctx):
+    ctx('calibtic')
+    ctx('halbe')
+    ctx('euter')
+    ctx('euter', 'pycellparameters')
+    ctx('pythonic')
+    ctx('logger')
+
+def options(opt):
+    opt.load('compiler_cxx')
+
+def configure(cfg):
+    cfg.load('compiler_cxx')
+
+    cfg.check_cxx(lib=['gsl' ,'gslcblas'],
+            uselib_store='GSL4CALIBTIC',
+            mandatory=True)
+
+def build(bld):
+    bld(
+            target          = 'hmf_calibration',
+            features     = 'cxx cxxshlib',
+            source          = bld.path.ant_glob('**/*.cpp', excl='build'),
+            use             = [
+                'GSL4CALIBTIC',
+                'calibtic',
+                'halbe_container',
+                'euter',
+                'pythonic',
+                'cellparameters_access',
+                'logger_obj',
+                ],
+            install_path    = '${PREFIX}/lib',
+    )
+
+    for tool in bld.path.parent.ant_glob('tools/*.cpp'):
+        bld(
+            target       = os.path.splitext(tool.name)[0],
+            features     = 'cxx cxxprogram',
+            source       = tool,
+            use          = ['hmf_calibration'],
+            install_path = '${PREFIX}/bin/tools',
+        )

@@ -1,0 +1,61 @@
+#!/usr/bin/env python
+import sys, os
+try:
+    from waflib.extras import symwaf2ic
+    from waflib.extras.gtest import summary
+    recurse = lambda *args: None # dummy recurse
+except ImportError:
+    from gtest import summary
+    from symwaf2ic import recurse_depends
+    recurse = lambda ctx: recurse_depends(depends, ctx)
+
+def depends(ctx):
+    ctx('calibtic')
+    ctx('calibtic', 'HMF')
+    ctx('calibtic', 'backends')
+    ctx('pywrap')
+    ctx('halbe', 'pyhalbe')
+    ctx('euter', 'pycellparameters')
+    ctx('logger', 'pylogging')
+
+def options(opt):
+    recurse(opt)
+    opt.load('compiler_cxx')
+    opt.load('pytest')
+    opt.load('python')
+    opt.load('pypp')
+    opt.load('boost')
+
+def configure(cfg):
+    recurse(cfg)
+    cfg.load('compiler_cxx')
+    cfg.load('pypp')
+    cfg.load('python')
+    cfg.load('pytest')
+    cfg.load('boost')
+
+    cfg.check_boost(lib='python serialization', uselib_store='BOOST4PYCALIBTIC')
+
+def build(bld):
+    recurse(bld)
+
+    bld(
+            target         = 'pycalibtic',
+            features       = 'cxx cxxshlib pyext pyembed pypp post_task',
+            source         =  bld.path.ant_glob('*.cpp'),
+            install_path    = '${PREFIX}/lib',
+            use            = [
+                'BOOST4PYCALIBTIC',
+                'hmf_calibration',
+                'pyhalbe',
+                'pylogging',
+                'pycellparameters',
+                'pywrapstdvector',
+                'pywrap',
+                ],
+            headers        = 'bindings.h',
+            gen_defines    = 'PYPLUSPLUS __STRICT_ANSI__ BOOST_PP_VARIADICS',
+            module         = 'pycalibtic',
+            script         = 'generate.py',
+            output_dir     = 'calibtic_bindings',
+    )

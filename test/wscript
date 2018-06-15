@@ -1,0 +1,60 @@
+#!/usr/bin/env python
+import sys, os
+try:
+    from waflib.extras import symwaf2ic
+    from waflib.extras.gtest import summary
+    recurse = lambda *args: None # dummy recurse
+except ImportError:
+    from gtest import summary
+    from symwaf2ic import recurse_depends
+    recurse = lambda ctx: recurse_depends(depends, ctx)
+
+def depends(ctx):
+    ctx('calibtic')
+    ctx('calibtic', 'backends')
+    ctx('calibtic', 'HMF')
+    ctx('calibtic', 'pycalibtic')
+
+def options(opt):
+    recurse(opt)
+    opt.load('compiler_cxx')
+    opt.load('pytest')
+    opt.load('post_task')
+
+def configure(cfg):
+    recurse(cfg)
+    cfg.load('compiler_cxx')
+    cfg.load('pytest')
+    cfg.load('post_task')
+
+    cfg.check_cxx(
+            lib='rt',
+            uselib_store='RT',
+            mandatory=True)
+
+def build(bld):
+    recurse(bld)
+
+    bld(target          = 'calibtic-main',
+        features        = 'cxx cxxprogram gtest post_task',
+        source          = bld.path.ant_glob('*.cpp'),
+        install_path    = os.path.join('bin', 'tests'),
+        use             = [
+                'calibtic',
+                'calibtic_xml',
+                'hmf_calibration',
+                'RT',
+            ],
+        post_task = ['calibtic_xml'],
+    )
+
+    bld(
+        name='pycalibtictests',
+        tests           = [
+            'pycalibtictest.py',
+            'test_issue1166.py'
+            ],
+        features        = 'pytest post_task',
+        use             = ['pycalibtic', 'calibtic_xml'],
+        post_task = ['calibtic_xml'],
+        install_path    = os.path.join('bin', 'tests'))
