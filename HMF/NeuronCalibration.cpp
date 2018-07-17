@@ -1,5 +1,8 @@
 #include "HMF/NeuronCalibration.h"
 
+#include <string>
+#include <valarray>
+
 #include "calibtic/trafo/Polynomial.h"
 #include "calibtic/trafo/NegativePowersPolynomial.h"
 #include "calibtic/trafo/OneOverPolynomial.h"
@@ -14,9 +17,18 @@ using namespace PyNNParameters;
 static log4cxx::LoggerPtr _log = log4cxx::Logger::getLogger("Calibtic");
 
 namespace {
-	calibtic::trafo::Lookup::data_type v_syntc_ideal = {
-		#include "v_syntc_ideal.dat"
-	};
+calibtic::trafo::Lookup::data_type v_syntcx_lookup = {
+#include "calibtic/data/HMF/v_syntcx_lookup.dat"
+};
+calibtic::trafo::Lookup::data_type v_syntci_lookup = {
+#include "calibtic/data/HMF/v_syntci_lookup.dat"
+};
+calibtic::trafo::Lookup::data_type i_pl_lookup = {
+#include "calibtic/data/HMF/i_pl_lookup.dat"
+};
+calibtic::trafo::Lookup::data_type i_gl_slow0_fast0_bigcap1_fit_parameters = {
+#include "calibtic/data/HMF/i_gl_slow0_fast0_bigcap1_fit_parameters.dat"
+};
 }
 
 namespace HMF {
@@ -213,53 +225,80 @@ void NeuronCalibration::populateWithDefault(NeuronCalibration* cal) const
 {
 
 	using namespace calibtic::trafo;
+	using NPP = NegativePowersPolynomial;
 
 	// I_gl --------------------------------------------------------------------
 	//
-	// FIXME: the same default transformation is used for all speedup and bigcap settings (#2298)!
+	// Scaling factors of the current mirrors:
 	//
+	// slow fast divisor    sthal
+	// 0    0    3       <- normal
+	// 0    1    1       <- fast
+	// 1    0    27      <- slow
+
+	size_t const I_gl_divisor_slow1_fast0 = 27;
+	size_t const I_gl_divisor_slow0_fast0 = 3;
+	size_t const I_gl_divisor_slow0_fast1 = 1;
+
+	double const fast_to_normal =
+	    static_cast<double>(I_gl_divisor_slow0_fast1) / I_gl_divisor_slow0_fast0;
+	double const slow_to_normal =
+	    static_cast<double>(I_gl_divisor_slow1_fast0) / I_gl_divisor_slow0_fast0;
+
+	// experimentally determined ratio
+	double const big_to_smallcap_tau_m_factor = 1 / 5.;
+
+	// factors for a fit to bigcap with normal speedup
+	std::valarray<double> const npps(
+	    i_gl_slow0_fast0_bigcap1_fit_parameters.data(),
+	    i_gl_slow0_fast0_bigcap1_fit_parameters.size());
+	std::valarray<double> const big_to_smallcap_tau_m_factors = {
+	    pow(big_to_smallcap_tau_m_factor, 0), pow(big_to_smallcap_tau_m_factor, 1),
+	    pow(big_to_smallcap_tau_m_factor, 2), pow(big_to_smallcap_tau_m_factor, 3),
+	    pow(big_to_smallcap_tau_m_factor, 4)};
+
 	// smallcap
-	// -> normal
-	cal->reset(Calibrations::I_gl_slow0_fast0_bigcap0,
-	           NegativePowersPolynomial::create({0, -82.6548e-6, 248.6586e-12}, 0.453e-6,
-	                                            3.326e-6)); // tau_mem, s -> DAC
-	// -> fast
-	cal->reset(Calibrations::I_gl_slow0_fast1_bigcap0,
-	           NegativePowersPolynomial::create({0, -82.6548e-6, 248.6586e-12}, 0.453e-6,
-	                                            3.326e-6)); // tau_mem, s -> DAC
 	// -> slow
-	cal->reset(Calibrations::I_gl_slow1_fast0_bigcap0,
-	           NegativePowersPolynomial::create({0, -82.6548e-6, 248.6586e-12}, 0.453e-6,
-	                                            3.326e-6)); // tau_mem, s -> DAC
-	// -> slow and fast - not supported?
-	cal->reset(Calibrations::I_gl_slow1_fast1_bigcap0,
-	           NegativePowersPolynomial::create({0, -82.6548e-6, 248.6586e-12}, 0.453e-6,
-	                                            3.326e-6)); // tau_mem, s -> DAC
+	std::valarray<double> const smallcap_slow =
+	    npps * big_to_smallcap_tau_m_factors * slow_to_normal;
+	cal->reset(
+	    Calibrations::I_gl_slow1_fast0_bigcap0,
+	    NPP::create({std::begin(smallcap_slow), std::end(smallcap_slow)}, 3.00e-7, 7.22e-5));
+	// -> normal
+	std::valarray<double> const smallcap_normal = npps * big_to_smallcap_tau_m_factors;
+	cal->reset(
+	    Calibrations::I_gl_slow0_fast0_bigcap0,
+	    NPP::create({std::begin(smallcap_normal), std::end(smallcap_normal)}, 1.083e-7, 9.63e-6));
+	// -> fast
+	std::valarray<double> const smallcap_fast =
+	    npps * big_to_smallcap_tau_m_factors * fast_to_normal;
+	cal->reset(
+	    Calibrations::I_gl_slow0_fast1_bigcap0,
+	    NPP::create({std::begin(smallcap_fast), std::end(smallcap_fast)}, 1.00e-7, 4.02e-6));
 
 	// bigcap
-	// -> normal
-	cal->reset(Calibrations::I_gl_slow0_fast0_bigcap1,
-	           NegativePowersPolynomial::create({0, -82.6548e-6, 248.6586e-12}, 0.453e-6,
-	                                            3.326e-6)); // tau_mem, s -> DAC
-	// -> fast
-	cal->reset(Calibrations::I_gl_slow0_fast1_bigcap1,
-	           NegativePowersPolynomial::create({0, -82.6548e-6, 248.6586e-12}, 0.453e-6,
-	                                            3.326e-6)); // tau_mem, s -> DAC
 	// -> slow
-	cal->reset(Calibrations::I_gl_slow1_fast0_bigcap1,
-	           NegativePowersPolynomial::create({0, -82.6548e-6, 248.6586e-12}, 0.453e-6,
-	                                            3.326e-6)); // tau_mem, s -> DAC
-	// -> slow and fast - not supported?
-	cal->reset(Calibrations::I_gl_slow1_fast1_bigcap1,
-	           NegativePowersPolynomial::create({0, -82.6548e-6, 248.6586e-12}, 0.453e-6,
-	                                            3.326e-6)); // tau_mem, s -> DAC
+	std::valarray<double> const bigcap_slow = npps * slow_to_normal;
+	cal->reset(
+	    Calibrations::I_gl_slow1_fast0_bigcap1,
+	    NPP::create({std::begin(bigcap_slow), std::end(bigcap_slow)}, 1.50e-6, 2.00e-4));
+	// -> normal
+	std::valarray<double> const bigcap_normal = npps;
+	cal->reset(
+	    Calibrations::I_gl_slow0_fast0_bigcap1,
+	    NPP::create({std::begin(npps), std::end(npps)}, 5.41e-7, 4.82e-5));
+	// -> fast
+	std::valarray<double> const bigcap_fast = npps * fast_to_normal;
+	cal->reset(
+	    Calibrations::I_gl_slow0_fast1_bigcap1,
+	    NPP::create({std::begin(bigcap_fast), std::end(bigcap_fast)}, 4.23e-7, 2.01e-5));
 	// -------------------------------------------------------------------------
 
 	// leak a.k.a. rest potential
 	cal->reset(Calibrations::E_l,       Polynomial::create({0.0, 1023./1.8},               0.0,    1.8)); // v_rest, V -> DAC
 
 	// excitatory & inhibitory reversal potential
-	cal->reset(Calibrations::E_synx,    Polynomial::create({0.0, 1023./1.8},               0.0,    1.8)); // e_rev_E, V -> DAC
+	cal->reset(Calibrations::E_synx,    Polynomial::create({-16, 614},                     0.0,    1.8)); // e_rev_E, V -> DAC
 	cal->reset(Calibrations::E_syni,    Polynomial::create({0.0, 1023./1.8},               0.0,    1.8)); // e_rev_I, V -> DAC
 
 	// adaption variables
@@ -281,10 +320,6 @@ void NeuronCalibration::populateWithDefault(NeuronCalibration* cal) const
 	cal->reset(Calibrations::I_gladapt_slow1_fast0_bigcap0,
 	           Polynomial::create({-0.2701, 0.106392e9, 2.01736e13}, 2.537e-9,
 	                              4958.e-9)); // a, S -> DAC
-	// -> slow and fast - not supported?
-	cal->reset(Calibrations::I_gladapt_slow1_fast1_bigcap0,
-	           Polynomial::create({-0.2701, 0.106392e9, 2.01736e13}, 2.537e-9,
-	                              4958.e-9)); // a, S -> DAC
 
 	// bigcap
 	// -> normal
@@ -297,10 +332,6 @@ void NeuronCalibration::populateWithDefault(NeuronCalibration* cal) const
 	                              4958.e-9)); // a, S -> DAC
 	// -> slow
 	cal->reset(Calibrations::I_gladapt_slow1_fast0_bigcap1,
-	           Polynomial::create({-0.2701, 0.106392e9, 2.01736e13}, 2.537e-9,
-	                              4958.e-9)); // a, S -> DAC
-	// -> slow and fast - not supported?
-	cal->reset(Calibrations::I_gladapt_slow1_fast1_bigcap1,
 	           Polynomial::create({-0.2701, 0.106392e9, 2.01736e13}, 2.537e-9,
 	                              4958.e-9)); // a, S -> DAC
 	// -------------------------------------------------------------------------
@@ -354,12 +385,10 @@ void NeuronCalibration::populateWithDefault(NeuronCalibration* cal) const
 	cal->reset(Calibrations::I_fire,    Polynomial::create({22.4037, 18.414e9, -0.057288e18},         0.0324e-9, 69.26e-9)); // b, A -> DAC
 
 	// refractory period
-	// minimum domain corresponds to DAC value of 1023
-	cal->reset(Calibrations::I_pl,      OneOverPolynomial::create({9.77517e-5, 6.1095e4}, 1.43999575505e-08,  1.0e-6)); // tau_ref, s -> DAC
-
+	cal->reset(Calibrations::I_pl, Lookup::create(i_pl_lookup, 10));
 	// synaptic input
-	cal->reset(Calibrations::V_syntcx,  Lookup::create(v_syntc_ideal, 153)); // tau_syn_E, s -> DAC
-	cal->reset(Calibrations::V_syntci,  Lookup::create(v_syntc_ideal, 153)); // tau_syn_I, s -> DAC
+	cal->reset(Calibrations::V_syntcx,  Lookup::create(v_syntcx_lookup, 226)); // tau_syn_E, s -> DAC
+	cal->reset(Calibrations::V_syntci,  Lookup::create(v_syntci_lookup, 226)); // tau_syn_I, s -> DAC
 
 	// dark marco magic a.k.a. biases
 	cal->reset(Calibrations::I_convi,   Constant::create(1023));
@@ -375,6 +404,7 @@ void NeuronCalibration::populateWithDefault(NeuronCalibration* cal) const
 	cal->reset(Calibrations::V_convoffi, Constant::create(1023));
 	cal->reset(Calibrations::V_convoffx, Constant::create(1023));
 
+	cal->reset(Calibrations::BigcapToSmallcap, Constant::create(1. / big_to_smallcap_tau_m_factor));
 }
 
 NeuronCalibration::NeuronCalibration(bool has_default) :
@@ -557,7 +587,7 @@ int NeuronCalibration::to_dac(
 	try {
 		applyOne(v, val, p, outside_domain_behavior);
 	} catch (const std::exception& e) {
-		LOG4CXX_WARN(
+		LOG4CXX_INFO(
 		    _log, "Calibtic::NeuronCalibration: "
 		              << to_string(p) << " will be calibrated with a default transformation");
 		if (mDefault) {
@@ -592,7 +622,7 @@ double NeuronCalibration::from_dac(
 	try {
 		reverseApplyOne(dac_clipped, val, p, outside_domain_behavior);
 	} catch (const std::exception& e) {
-		LOG4CXX_WARN(
+		LOG4CXX_INFO(
 		    _log, "Calibtic::NeuronCalibration::from_dac "
 		              << to_string(p) << " will be calibrated with a default transformation");
 		if (mDefault) {

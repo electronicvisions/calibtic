@@ -415,17 +415,17 @@ class TestPyCalibtic(unittest.TestCase):
         pcp.e_rev_E = -70
         pcp.e_rev_I = -80
         pcp.tau_refrac = 10
-        pcp.tau_syn_E = 147
-        pcp.tau_syn_I = 17.47
+        pcp.tau_syn_E = 2
+        pcp.tau_syn_I = 2
 
         hw_params = nc.applyNeuronCalibration(pcp, 10000, params)
 
         # compare with scaling + ideal volt-to-dac or best-guess transformation
         self.assertEqual(hw_params.getParam(pyhalbe.HICANN.neuron_parameter.names["V_t"]), 398)
         self.assertEqual(hw_params.getParam(pyhalbe.HICANN.neuron_parameter.names["E_l"]), 341)
-        self.assertEqual(hw_params.getParam(pyhalbe.HICANN.neuron_parameter.names["E_synx"]), 284)
+        self.assertEqual(hw_params.getParam(pyhalbe.HICANN.neuron_parameter.names["E_synx"]), 291)
         self.assertEqual(hw_params.getParam(pyhalbe.HICANN.neuron_parameter.names["E_syni"]), 227)
-        self.assertEqual(hw_params.getParam(pyhalbe.HICANN.neuron_parameter.names["I_pl"]), 16)
+        self.assertEqual(hw_params.getParam(pyhalbe.HICANN.neuron_parameter.names["I_pl"]), 17)
 
         self.assertEqual(hw_params.getParam(pyhalbe.HICANN.neuron_parameter.names["V_convoffi"]), 1023)
         self.assertEqual(hw_params.getParam(pyhalbe.HICANN.neuron_parameter.names["V_convoffx"]), 1023)
@@ -441,8 +441,8 @@ class TestPyCalibtic(unittest.TestCase):
 
         self.assertEqual(hw_params.getParam(pyhalbe.HICANN.neuron_parameter.names["I_spikeamp"]), 1023)
 
-        self.assertEqual(hw_params.getParam(pyhalbe.HICANN.neuron_parameter.names["V_syntci"]), 408)
-        self.assertEqual(hw_params.getParam(pyhalbe.HICANN.neuron_parameter.names["V_syntcx"]), 169)
+        self.assertEqual(hw_params.getParam(pyhalbe.HICANN.neuron_parameter.names["V_syntci"]), 481)
+        self.assertEqual(hw_params.getParam(pyhalbe.HICANN.neuron_parameter.names["V_syntcx"]), 481)
 
     def test_reverse_apply_reverse_domains(self):
 

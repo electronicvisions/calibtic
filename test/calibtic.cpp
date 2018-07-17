@@ -312,16 +312,16 @@ TEST(Calibtic, CalibBioToHw)
 	PyNNParameters::EIF_cond_exp_isfa_ista inp;
 	inp.tau_refrac = 1.00;
 	inp.a =          2.5;
-	inp.tau_m =      5.0;
+	inp.tau_m =      10.0;
 	inp.e_rev_E =    0.0;
 	inp.cm =         0.24;
 	inp.delta_T =    1.2;
 	inp.e_rev_I =    -80.0;
 	inp.v_thresh =   -40.0;
 	inp.b =          0.05;
-	inp.tau_syn_E =  17;
+	inp.tau_syn_E =  2;
 	inp.v_spike =    0.0;
-	inp.tau_syn_I =  17;
+	inp.tau_syn_I =  2;
 	inp.tau_w =      30.0;
 	inp.v_rest =     -60.0;
 
@@ -331,16 +331,16 @@ TEST(Calibtic, CalibBioToHw)
 	nc_params.alphaV = 10;
 	HWNeuronParameter calibrated = mCalib.applyNeuronCalibration(inp, speedup, nc_params);
 
-	//results calculated in notebook (see calibtic/doc/BioToHW_tests.ipynb)
-	EXPECT_EQ( calibrated.getParam(h::I_pl), 161);
+	//results calculated in calibtic/doc/BioToHW_tests.py
+	EXPECT_EQ( calibrated.getParam(h::I_pl), 102);
 	EXPECT_EQ( calibrated.getParam(h::I_gladapt), 25);
-	EXPECT_EQ( calibrated.getParam(h::I_gl), 829);
+	EXPECT_EQ( calibrated.getParam(h::I_gl), 189);
 	EXPECT_EQ( calibrated.getParam(h::E_syni), 227);
-	EXPECT_EQ( calibrated.getParam(h::E_synx), 682);
+	EXPECT_EQ( calibrated.getParam(h::E_synx), 721);
 	EXPECT_EQ( calibrated.getParam(h::I_rexp), 832);
 	EXPECT_EQ( calibrated.getParam(h::I_fire), 736);
-	EXPECT_EQ( calibrated.getParam(h::V_syntcx), 487);
-	EXPECT_EQ( calibrated.getParam(h::V_syntci), 487);
+	EXPECT_EQ( calibrated.getParam(h::V_syntcx), 481);
+	EXPECT_EQ( calibrated.getParam(h::V_syntci), 481);
 	EXPECT_EQ( calibrated.getParam(h::V_t), 682);
 	EXPECT_EQ( calibrated.getParam(h::I_radapt), 819);
 	EXPECT_EQ( calibrated.getParam(h::E_l), 341);
@@ -383,23 +383,22 @@ TEST(Calibtic, CalibHwtoBio)
 	double eps = 0.001;
 
 	EXPECT_NEAR( -30.088   , bio.v_rest     , eps);
-	EXPECT_NEAR( 6.21373   , bio.tau_m      , eps);
+	EXPECT_NEAR( 6.49585   , bio.tau_m      , eps);
 	EXPECT_NEAR( 30.4612   , bio.a          , eps);
 	EXPECT_NEAR( 38.6019   , bio.tau_w      , eps);
 	EXPECT_NEAR( 0.89882   , bio.delta_T    , eps);
 	EXPECT_NEAR( 0.02918   , bio.b          , eps);
-	EXPECT_NEAR( -30.088   , bio.e_rev_E    , eps);
-	EXPECT_NEAR( -30.088   , bio.e_rev_I    , eps);
+	EXPECT_NEAR( -34.1693  , bio.e_rev_E    , eps);
+	EXPECT_NEAR( -30.0879  , bio.e_rev_I    , eps);
 
-	//tau_syn_E/I adapted to v4 default curve (HMF/v_syntc_ideal.dat)
-	//taken from ideal simulations
+	//tau_syn_E/I adapted to v4 averaged curve (HMF/v_syntcx/i_averaged.dat)
 	//we need a higher relative error here because the curve is highly
 	//non-linear
-	EXPECT_NEAR( 17        , bio.tau_syn_E  , eps*2);
-	EXPECT_NEAR( 17        , bio.tau_syn_I  , eps*2);
+	EXPECT_NEAR( 1.96297   , bio.tau_syn_E  , eps*2);
+	EXPECT_NEAR( 1.96297   , bio.tau_syn_I  , eps*2);
 
 	EXPECT_NEAR( -30.088   , bio.v_thresh   , eps);
-	EXPECT_NEAR( 0.30431   , bio.tau_refrac , eps);
+	EXPECT_NEAR( 0.28240   , bio.tau_refrac , eps);
 	EXPECT_NEAR( -30.088   , bio.v_spike    , eps);
 }
 
@@ -437,9 +436,9 @@ TEST(Calibtic, CalibBioToHwToBio)
 	    inp.e_rev_I =    (rand() % 500)*0.01 - 80; // from -80.xx to -75.xx
 	    inp.v_thresh =   (rand() % 600)*0.01 - 56; // from -56.xx to -42.xx
 	    inp.b =          (rand() % 69)*0.001; // from 0.000 to 0.069
-	    inp.tau_syn_E =  (rand() % 1000)*0.01 + 15; // from 15.xx to 20.xx
+	    inp.tau_syn_E =  (rand() % 1000)*0.01 + 1;  // from 15.xx to 20.xx
 	    inp.v_spike =    (rand() % 480)*0.01 + 0.2; // from 0.2x to 5.xx
-	    inp.tau_syn_I =  (rand() % 1000)*0.01 + 15; // from 15.xx to 20.xx
+	    inp.tau_syn_I =  (rand() % 1000)*0.01 + 1 ; // from 1.xx to 20.xx
 	    inp.tau_w =      (rand() % 9000)*0.01 + 40; // from 40.xx to 130.
 	    inp.v_rest =     (rand() % 1200)*0.01 - 70; // from -70.xx to -58
 
