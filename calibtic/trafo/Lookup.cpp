@@ -92,8 +92,7 @@ Lookup::search_mode Lookup::determineSearchMode(const data_type & data)
 {
 	if (std::is_sorted(data.begin(), data.end()))
 		return SEARCH_BINARY_RAISING;
-	if (std::is_sorted(data.begin(), data.end(),
-                       std::greater_equal<data_type::value_type>()))
+	if (std::is_sorted(data.rbegin(), data.rend()))
 		return SEARCH_BINARY_FALLING;
 	throw std::runtime_error("calibtic::Lookup: Provided data is not sorted!");
 }
