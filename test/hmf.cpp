@@ -7,6 +7,8 @@
 #include "calibtic/HMF/BlockCollection.h"
 #include "calibtic/HMF/SynapseRowCalibration.h"
 #include "calibtic/HMF/SynapseRowCollection.h"
+#include "calibtic/HMF/L1CrossbarCollection.h"
+#include "calibtic/HMF/L1CrossbarCalibration.h"
 
 using namespace HMF;
 
@@ -21,7 +23,9 @@ typedef ::testing::Types<
 	BlockCollection,
 	SynapseCalibration,
 	SynapseRowCalibration,
-	SynapseRowCollection
+	SynapseRowCollection,
+	L1CrossbarCollection,
+	L1CrossbarCalibration
 	> TestedHMFObjects;
 TYPED_TEST_CASE(HMFCalibrationObject, TestedHMFObjects);
 

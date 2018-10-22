@@ -8,6 +8,7 @@
 #include "calibtic/HMF/NeuronCollection.h"
 #include "calibtic/HMF/BlockCollection.h"
 #include "calibtic/HMF/SynapseRowCollection.h"
+#include "calibtic/HMF/L1CrossbarCollection.h"
 
 namespace HMF {
 
@@ -54,6 +55,7 @@ public:
 	boost::shared_ptr<NeuronCollection> atNeuronCollection();
 	boost::shared_ptr<BlockCollection> atBlockCollection();
 	boost::shared_ptr<SynapseRowCollection> atSynapseRowCollection();
+	boost::shared_ptr<L1CrossbarCollection> atL1CrossbarCollection();
 
 #ifndef PYPLUSPLUS
 	const boost::shared_ptr<const NeuronCollection> atNeuronCollection() const;
@@ -61,6 +63,8 @@ public:
 	const boost::shared_ptr<const BlockCollection> atBlockCollection() const;
 
 	const boost::shared_ptr<const SynapseRowCollection> atSynapseRowCollection() const;
+
+	const boost::shared_ptr<const L1CrossbarCollection> atL1CrossbarCollection() const;
 #endif
 
 	virtual void copy(Collection const& rhs);
@@ -82,7 +86,13 @@ private:
 	size_t mStartingCycle;
 
 	struct Collection_ID {
-		enum {Neuron=0, Block=1, SynapseRow=2};
+		enum
+		{
+			Neuron = 0,
+			Block = 1,
+			SynapseRow = 2,
+			L1Crossbar = 3
+		};
 	};
 
 };

@@ -32,6 +32,8 @@
 #include "calibtic/HMF/SynapseRowCalibration.h"
 #include "calibtic/HMF/SynapseRowCollection.h"
 #include "calibtic/HMF/STPUtilizationCalibration.h"
+#include "calibtic/HMF/L1CrossbarCollection.h"
+#include "calibtic/HMF/L1CrossbarCalibration.h"
 
 /// Workaround for pickle support:
 /// We use the factory design pattern for class construction which implies that we handle only

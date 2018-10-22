@@ -12,6 +12,7 @@ HICANNCollection::HICANNCollection()
 	boost::shared_ptr<NeuronCollection> nc(new NeuronCollection);
 	boost::shared_ptr<BlockCollection> bc(new BlockCollection);
 	boost::shared_ptr<SynapseRowCollection> sc(new SynapseRowCollection);
+	boost::shared_ptr<L1CrossbarCollection> cc(new L1CrossbarCollection);
 
 	erase(Collection_ID::Neuron);
 	insert(Collection_ID::Neuron, nc);
@@ -19,7 +20,8 @@ HICANNCollection::HICANNCollection()
 	insert(Collection_ID::Block, bc);
 	erase(Collection_ID::SynapseRow);
 	insert(Collection_ID::SynapseRow, sc);
-
+	erase(Collection_ID::L1Crossbar);
+	insert(Collection_ID::L1Crossbar, cc);
 }
 
 HICANNCollection::~HICANNCollection()
@@ -31,6 +33,7 @@ void HICANNCollection::setDefaults()
 	atNeuronCollection()->setDefaults();
 	atBlockCollection()->setDefaults();
 	atSynapseRowCollection()->setDefaults();
+	atL1CrossbarCollection()->setDefaults();
 }
 
 boost::shared_ptr<NeuronCollection> HICANNCollection::atNeuronCollection()
@@ -70,6 +73,15 @@ boost::shared_ptr<SynapseRowCollection> HICANNCollection::atSynapseRowCollection
 	);
 }
 
+boost::shared_ptr<L1CrossbarCollection> HICANNCollection::atL1CrossbarCollection()
+{
+	if (!exists(Collection_ID::L1Crossbar)) {
+		throw std::runtime_error("HICANNCollection: missing L1crossbar collection");
+	}
+
+	return boost::dynamic_pointer_cast<L1CrossbarCollection>(at(Collection_ID::L1Crossbar));
+}
+
 #ifndef PYPLUSPLUS
 const boost::shared_ptr<const NeuronCollection> HICANNCollection::atNeuronCollection() const {
 
@@ -99,8 +111,20 @@ const boost::shared_ptr<const SynapseRowCollection> HICANNCollection::atSynapseR
 		throw std::runtime_error("HICANNCollection: missing synapse row collection");
 	}
 
-	const boost::shared_ptr<const SynapseRowCollection> sc = boost::dynamic_pointer_cast<const SynapseRowCollection>(at(Collection_ID::SynapseRow));
+	const boost::shared_ptr<const SynapseRowCollection> sc =
+	    boost::dynamic_pointer_cast<const SynapseRowCollection>(at(Collection_ID::SynapseRow));
 	return sc;
+}
+
+const boost::shared_ptr<const L1CrossbarCollection> HICANNCollection::atL1CrossbarCollection() const
+{
+	if (!exists(Collection_ID::L1Crossbar)) {
+		throw std::runtime_error("HICANNCollection: missing L1Crossbar collection");
+	}
+
+	const boost::shared_ptr<const L1CrossbarCollection> cc =
+	    boost::dynamic_pointer_cast<const L1CrossbarCollection>(at(Collection_ID::L1Crossbar));
+	return cc;
 }
 #endif
 

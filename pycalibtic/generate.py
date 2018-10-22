@@ -30,6 +30,7 @@ shared_ptr_class_factories = [
     'NeuronCollection', 'BlockCollection', 'HICANNCollection',
     'SynapseCalibration', 'SynapseRowCalibration',  'SynapseRowCollection',
     'STPUtilizationCalibration', 'QuadraticADCCalibration',
+    'L1CrossbarCollection', 'L1CrossbarCalibration',
 ]
 
 for c in ns.find(mb, 'classes', shared_ptr_class_factories):

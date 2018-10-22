@@ -3,6 +3,7 @@
 #include <string>
 #include <cstdlib>
 #include "test.h"
+#include "hal/Coordinate/iter_all.h"
 
 #include "calibtic/Collection.h"
 #include "calibtic/Calibration.h"
@@ -21,6 +22,8 @@
 #include "calibtic/HMF/SynapseCalibration.h"
 #include "calibtic/HMF/SynapseRowCalibration.h"
 #include "calibtic/HMF/SynapseRowCollection.h"
+#include "calibtic/HMF/L1CrossbarCollection.h"
+#include "calibtic/HMF/L1CrossbarCalibration.h"
 
 using namespace calibtic;
 using namespace calibtic::trafo;
@@ -718,7 +721,7 @@ TEST(Calibtic, CheckBoundariesOfDefaultNeuronCalib)
 		}
 		auto const boundaries = trafo->getDomainBoundaries();
 
-		// reverseApply with double 
+		// reverseApply with double
 		{
 			std::vector<double> hw_boundaries;
 
@@ -924,4 +927,89 @@ TEST(Calibtic, SynapseRowCollection)
 	SynapseRowCollection srco;
 	srco.setDefaults();
 	ASSERT_EQ(448, srco.size());
+}
+
+TEST(Calibtic, L1CrossbarCalibration)
+{
+	HMF::L1CrossbarCalibration l1;
+	l1.setDefaults();
+	ASSERT_EQ(1, l1.getMaxSwitchesPerRow());
+	ASSERT_EQ(1, l1.getMaxSwitchesPerColumn());
+
+	l1.setMaxSwitchesPerRow(3);
+	l1.setMaxSwitchesPerColumn(5);
+
+	ASSERT_EQ(3, l1.getMaxSwitchesPerRow());
+	ASSERT_EQ(5, l1.getMaxSwitchesPerColumn());
+}
+
+TYPED_TEST(BasicTest, L1CrossbarCalibration)
+{
+	MetaData md;
+	HMF::L1CrossbarCalibration l1;
+	l1.setMaxSwitchesPerRow(13);
+	l1.setMaxSwitchesPerColumn(37);
+	TestFixture::backend->store("fisch", md, l1);
+
+	for (size_t ii = 0; ii < 2; ii++) {
+		HMF::L1CrossbarCalibration ll;
+		TestFixture::backend->load("fisch", md, ll);
+		ASSERT_EQ(13, ll.getMaxSwitchesPerRow());
+		ASSERT_EQ(37, ll.getMaxSwitchesPerColumn());
+	}
+}
+
+TEST(Calibtic, L1CrossbarCollection)
+{
+	using namespace HMF;
+	L1CrossbarCollection l1co;
+	l1co.setDefaults();
+	ASSERT_EQ(1, l1co.getMaxSwitchesPerRow(HMF::Coordinate::VLineOnHICANN(42)));
+	ASSERT_EQ(1, l1co.getMaxSwitchesPerRow(HMF::Coordinate::HLineOnHICANN(42)));
+
+	l1co.setMaxSwitchesPerRow(HMF::Coordinate::VLineOnHICANN(42), 4);
+
+	ASSERT_EQ(4, l1co.getMaxSwitchesPerRow(HMF::Coordinate::VLineOnHICANN(42)));
+	ASSERT_EQ(1, l1co.getMaxSwitchesPerRow(HMF::Coordinate::HLineOnHICANN(42)));
+}
+
+TEST(calibtic, L1CrossbarCollection)
+{
+	using namespace HMF;
+	L1CrossbarCollection l1co;
+	l1co.setDefaults();
+
+	for( size_t i : Coordinate::iter_all<Coordinate::VLineOnHICANN>() ){
+		l1co.setMaxSwitchesPerRow(Coordinate::VLineOnHICANN(i), 4);
+	}
+	for( size_t i : Coordinate::iter_all<Coordinate::HLineOnHICANN>() ){
+		ASSERT_EQ(1, l1co.getMaxSwitchesPerRow(Coordinate::HLineOnHICANN(i)));
+	}
+
+}
+
+TYPED_TEST(BasicTest, L1CrossbarCollection)
+{
+	using namespace HMF;
+	L1CrossbarCollection l1co;
+	l1co.setDefaults();
+	ASSERT_EQ(1, l1co.getMaxSwitchesPerRow(HMF::Coordinate::VLineOnHICANN(42)));
+	ASSERT_EQ(1, l1co.getMaxSwitchesPerRow(HMF::Coordinate::HLineOnHICANN(42)));
+
+	l1co.setMaxSwitchesPerRow(HMF::Coordinate::VLineOnHICANN(42), 4);
+
+	ASSERT_EQ(4, l1co.getMaxSwitchesPerRow(HMF::Coordinate::VLineOnHICANN(42)));
+	ASSERT_EQ(1, l1co.getMaxSwitchesPerRow(HMF::Coordinate::HLineOnHICANN(42)));
+
+	// test serialisation
+	MetaData md;
+	TestFixture::backend->store("fisch", md, l1co);
+
+	for (size_t ii = 0; ii < 2; ii++) {
+		L1CrossbarCollection l1co_load;
+		TestFixture::backend->load("fisch", md, l1co_load);
+
+		ASSERT_EQ(4, l1co_load.getMaxSwitchesPerRow(HMF::Coordinate::VLineOnHICANN(42)));
+		ASSERT_EQ(1, l1co_load.getMaxSwitchesPerRow(HMF::Coordinate::HLineOnHICANN(42)));
+	}
 }
