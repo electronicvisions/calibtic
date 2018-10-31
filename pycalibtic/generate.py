@@ -108,4 +108,9 @@ ns.exclude_by_access_type(mb, ['classes'], 'private')
 
 mb.decl("::std::pair< double, double>").include()
 
+ns_hmf = mb.namespace("::HMF")
+f = ns_hmf.free_function("to_string",
+                         arg_types=["::HMF::NeuronCalibrationParameters::Calibrations::calib"])
+f.include()
+
 wrap.finish()

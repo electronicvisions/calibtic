@@ -120,6 +120,8 @@ struct NeuronCalibrationParameters
 	bool operator==(NeuronCalibrationParameters rhs) const;
 };
 
+std::string to_string(HMF::NeuronCalibrationParameters::Calibrations::calib c);
+
 class NeuronCalibration :
 	public calibtic::Calibration
 {

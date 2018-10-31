@@ -21,6 +21,112 @@ namespace {
 
 namespace HMF {
 
+std::string to_string(HMF::NeuronCalibrationParameters::Calibrations::calib c)
+{
+	using HNC = HMF::NeuronCalibrationParameters::Calibrations;
+	switch (c) {
+		case HNC::E_l:
+			return "E_l";
+		case HNC::E_syni:
+			return "E_syni";
+		case HNC::E_synx:
+			return "E_synx";
+		case HNC::I_bexp:
+			return "I_bexp";
+		case HNC::I_convi:
+			return "I_convi";
+		case HNC::I_convx:
+			return "I_convx";
+		case HNC::I_fire:
+			return "I_fire";
+		case HNC::I_gl_slow0_fast0_bigcap0:
+			return "I_gl_slow0_fast0_bigcap0";
+		case HNC::I_gl_slow0_fast1_bigcap0:
+			return "I_gl_slow0_fast1_bigcap0";
+		case HNC::I_gl_slow1_fast0_bigcap0:
+			return "I_gl_slow1_fast0_bigcap0";
+		case HNC::I_gl_slow1_fast1_bigcap0:
+			return "I_gl_slow1_fast1_bigcap0";
+		case HNC::I_gl_slow0_fast0_bigcap1:
+			return "I_gl_slow0_fast0_bigcap1";
+		case HNC::I_gl_slow0_fast1_bigcap1:
+			return "I_gl_slow0_fast1_bigcap1";
+		case HNC::I_gl_slow1_fast0_bigcap1:
+			return "I_gl_slow1_fast0_bigcap1";
+		case HNC::I_gl_slow1_fast1_bigcap1:
+			return "I_gl_slow1_fast1_bigcap1";
+		case HNC::I_gladapt_slow0_fast0_bigcap0:
+			return "I_gladapt_slow0_fast0_bigcap0";
+		case HNC::I_gladapt_slow0_fast1_bigcap0:
+			return "I_gladapt_slow0_fast1_bigcap0";
+		case HNC::I_gladapt_slow1_fast0_bigcap0:
+			return "I_gladapt_slow1_fast0_bigcap0";
+		case HNC::I_gladapt_slow1_fast1_bigcap0:
+			return "I_gladapt_slow1_fast1_bigcap0";
+		case HNC::I_gladapt_slow0_fast0_bigcap1:
+			return "I_gladapt_slow0_fast0_bigcap1";
+		case HNC::I_gladapt_slow0_fast1_bigcap1:
+			return "I_gladapt_slow0_fast1_bigcap1";
+		case HNC::I_gladapt_slow1_fast0_bigcap1:
+			return "I_gladapt_slow1_fast0_bigcap1";
+		case HNC::I_gladapt_slow1_fast1_bigcap1:
+			return "I_gladapt_slow1_fast1_bigcap1";
+		case HNC::I_intbbi:
+			return "I_intbbi";
+		case HNC::I_intbbx:
+			return "I_intbbx";
+		case HNC::I_pl:
+			return "I_pl";
+		case HNC::I_radapt_slow0_fast0_bigcap0:
+			return "I_radapt_slow0_fast0_bigcap0";
+		case HNC::I_radapt_slow0_fast1_bigcap0:
+			return "I_radapt_slow0_fast1_bigcap0";
+		case HNC::I_radapt_slow1_fast0_bigcap0:
+			return "I_radapt_slow1_fast0_bigcap0";
+		case HNC::I_radapt_slow1_fast1_bigcap0:
+			return "I_radapt_slow1_fast1_bigcap0";
+		case HNC::I_radapt_slow0_fast0_bigcap1:
+			return "I_radapt_slow0_fast0_bigcap1";
+		case HNC::I_radapt_slow0_fast1_bigcap1:
+			return "I_radapt_slow0_fast1_bigcap1";
+		case HNC::I_radapt_slow1_fast0_bigcap1:
+			return "I_radapt_slow1_fast0_bigcap1";
+		case HNC::I_radapt_slow1_fast1_bigcap1:
+			return "I_radapt_slow1_fast1_bigcap1";
+		case HNC::I_rexp:
+			return "I_rexp";
+		case HNC::I_spikeamp:
+			return "I_spikeamp";
+		case HNC::V_exp:
+			return "V_exp";
+		case HNC::V_syni:
+			return "V_syni";
+		case HNC::V_syntci:
+			return "V_syntci";
+		case HNC::V_syntcx:
+			return "V_syntcx";
+		case HNC::V_synx:
+			return "V_synx";
+		case HNC::V_t:
+			return "V_t";
+		case HNC::V_convoffi:
+			return "V_convoffi";
+		case HNC::V_convoffx:
+			return "V_convoffx";
+		case HNC::ReadoutShift:
+			return "ReadoutShift";
+		case HNC::BigcapToSmallcap:
+			return "BigcapToSmallcap";
+		case HNC::NCAL_SIZE:
+			return "NCAL_SIZE";
+		default: {
+			throw std::out_of_range(
+			    "to_string: not a HMF::NeuronCalibrationParameters::Calibrations " +
+			    std::to_string(static_cast<int>(c)));
+		}
+	};
+}
+
 const double NeuronCalibrationParameters::big_cap   = 2.16456e-3;  //nF
 const double NeuronCalibrationParameters::small_cap =   164.2e-6;  //nF
 
@@ -451,9 +557,9 @@ int NeuronCalibration::to_dac(
 	try {
 		applyOne(v, val, p, outside_domain_behavior);
 	} catch (const std::exception& e) {
-		LOG4CXX_WARN(_log, "Calibtic::NeuronCalibration: "
-		                       << p
-		                       << " will be calibrated with a default transformation");
+		LOG4CXX_WARN(
+		    _log, "Calibtic::NeuronCalibration: "
+		              << to_string(p) << " will be calibrated with a default transformation");
 		if (mDefault) {
 			mDefault->applyOne(v, val, p, outside_domain_behavior);
 		} else {
@@ -466,9 +572,9 @@ int NeuronCalibration::to_dac(
 
 	if (dac != dac_clipped)
 	{
-		LOG4CXX_WARN(_log, "digital FG value "
-		                       << dac << " of neuron parameter " << p
-		                       << " clipped to " << dac_clipped);
+		LOG4CXX_WARN(
+		    _log, "digital FG value " << dac << " of neuron parameter " << to_string(p)
+		                              << " clipped to " << dac_clipped);
 	}
 
 	return dac_clipped;
@@ -486,10 +592,9 @@ double NeuronCalibration::from_dac(
 	try {
 		reverseApplyOne(dac_clipped, val, p, outside_domain_behavior);
 	} catch (const std::exception& e) {
-		LOG4CXX_WARN(_log,
-		             "Calibtic::NeuronCalibration::from_dac "
-		                 << p
-		                 << " will be calibrated with a default transformation");
+		LOG4CXX_WARN(
+		    _log, "Calibtic::NeuronCalibration::from_dac "
+		              << to_string(p) << " will be calibrated with a default transformation");
 		if (mDefault) {
 			mDefault->reverseApplyOne(dac_clipped, val, p, outside_domain_behavior);
 		} else {

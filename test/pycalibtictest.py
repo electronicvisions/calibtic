@@ -513,6 +513,11 @@ class TestPyCalibtic(unittest.TestCase):
             self.assertEqual(cal.NeuronCalibrationParameters().Calibrations_to_HW[int(getattr(cal.NeuronCalibrationParameters.Calibrations, "I_radapt_slow{}_fast{}_bigcap{}".format(int(s), int(f), int(bc))))],
                              pyhalbe.HICANN.neuron_parameter.I_radapt)
 
+    def test_neuron_calibration_parameter_to_string(self):
+        enum = cal.NeuronCalibrationParameters.Calibrations.calib
+
+        for name, parameter in enum.names.iteritems():
+            self.assertEqual(name, cal.to_string(parameter))
 
 if __name__ == '__main__':
     unittest.main()
