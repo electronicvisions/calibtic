@@ -111,7 +111,7 @@ HWSharedParameter SharedCalibration::applySharedCalibration(double v_reset) cons
 		applyOne(-1 /*anyValue*/, h[HICANN::shared_parameter::V_dllres], HICANN::shared_parameter::V_dllres);
 	} catch (const std::exception& e) {
 		LOG4CXX_WARN(_log, "Calibtic::NeuronCalibration: no value retrieved for V_dllres, because: " << e.what());
-		h[HICANN::shared_parameter::V_dllres] = 1023;
+		h[HICANN::shared_parameter::V_dllres] = 275;
 	}
 	LOG4CXX_DEBUG(_log, "V_dllres set to = " << h[HICANN::shared_parameter::V_dllres]);
 
@@ -119,14 +119,14 @@ HWSharedParameter SharedCalibration::applySharedCalibration(double v_reset) cons
 		applyOne(-1 /*anyValue*/, h[HICANN::shared_parameter::V_ccas], HICANN::shared_parameter::V_ccas);
 	} catch (const std::exception& e) {
 		LOG4CXX_WARN(_log, "Calibtic::NeuronCalibration: no value retrieved for V_ccas, because: " << e.what());
-		h[HICANN::shared_parameter::V_ccas] = 600;
+		h[HICANN::shared_parameter::V_ccas] = 800;
 	}
 	LOG4CXX_DEBUG(_log, "V_ccas set to = " << h[HICANN::shared_parameter::V_ccas]);
 
-	h[HICANN::shared_parameter::V_gmax0] =       50;
-	h[HICANN::shared_parameter::V_gmax1] =       50;
-	h[HICANN::shared_parameter::V_gmax2] =       50;
-	h[HICANN::shared_parameter::V_gmax3] =       50;
+	h[HICANN::shared_parameter::V_gmax0] = 1023;
+	h[HICANN::shared_parameter::V_gmax1] = 1023;
+	h[HICANN::shared_parameter::V_gmax2] = 1023;
+	h[HICANN::shared_parameter::V_gmax3] = 1023;
 
 	// STDP
 	h[HICANN::shared_parameter::V_br] =             0;
