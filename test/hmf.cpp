@@ -9,6 +9,8 @@
 #include "calibtic/HMF/SynapseRowCollection.h"
 #include "calibtic/HMF/L1CrossbarCollection.h"
 #include "calibtic/HMF/L1CrossbarCalibration.h"
+#include "calibtic/HMF/SynapseChainLengthCollection.h"
+#include "calibtic/HMF/SynapseChainLengthCalibration.h"
 
 using namespace HMF;
 
@@ -25,7 +27,9 @@ typedef ::testing::Types<
 	SynapseRowCalibration,
 	SynapseRowCollection,
 	L1CrossbarCollection,
-	L1CrossbarCalibration
+	L1CrossbarCalibration,
+	SynapseChainLengthCollection,
+	SynapseChainLengthCalibration
 	> TestedHMFObjects;
 TYPED_TEST_CASE(HMFCalibrationObject, TestedHMFObjects);
 

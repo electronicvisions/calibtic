@@ -13,6 +13,7 @@ HICANNCollection::HICANNCollection()
 	boost::shared_ptr<BlockCollection> bc(new BlockCollection);
 	boost::shared_ptr<SynapseRowCollection> sc(new SynapseRowCollection);
 	boost::shared_ptr<L1CrossbarCollection> cc(new L1CrossbarCollection);
+	boost::shared_ptr<SynapseChainLengthCollection> scl(new SynapseChainLengthCollection);
 
 	erase(Collection_ID::Neuron);
 	insert(Collection_ID::Neuron, nc);
@@ -22,6 +23,8 @@ HICANNCollection::HICANNCollection()
 	insert(Collection_ID::SynapseRow, sc);
 	erase(Collection_ID::L1Crossbar);
 	insert(Collection_ID::L1Crossbar, cc);
+	erase(Collection_ID::SynapseChainLength);
+	insert(Collection_ID::SynapseChainLength, scl);
 }
 
 HICANNCollection::~HICANNCollection()
@@ -34,6 +37,7 @@ void HICANNCollection::setDefaults()
 	atBlockCollection()->setDefaults();
 	atSynapseRowCollection()->setDefaults();
 	atL1CrossbarCollection()->setDefaults();
+	atSynapseChainLengthCollection()->setDefaults();
 }
 
 boost::shared_ptr<NeuronCollection> HICANNCollection::atNeuronCollection()
@@ -82,6 +86,17 @@ boost::shared_ptr<L1CrossbarCollection> HICANNCollection::atL1CrossbarCollection
 	return boost::dynamic_pointer_cast<L1CrossbarCollection>(at(Collection_ID::L1Crossbar));
 }
 
+boost::shared_ptr<SynapseChainLengthCollection> HICANNCollection::atSynapseChainLengthCollection()
+{
+	if (!exists(Collection_ID::SynapseChainLength)) {
+		throw std::runtime_error("HICANNCollection: missing SynapseChainLength collection");
+	}
+
+	return boost::dynamic_pointer_cast<SynapseChainLengthCollection>(
+	    at(Collection_ID::SynapseChainLength));
+}
+
+
 #ifndef PYPLUSPLUS
 const boost::shared_ptr<const NeuronCollection> HICANNCollection::atNeuronCollection() const {
 
@@ -126,6 +141,20 @@ const boost::shared_ptr<const L1CrossbarCollection> HICANNCollection::atL1Crossb
 	    boost::dynamic_pointer_cast<const L1CrossbarCollection>(at(Collection_ID::L1Crossbar));
 	return cc;
 }
+
+const boost::shared_ptr<const SynapseChainLengthCollection>
+HICANNCollection::atSynapseChainLengthCollection() const
+{
+	if (!exists(Collection_ID::SynapseChainLength)) {
+		throw std::runtime_error("HICANNCollection: missing synapseChainLength collection");
+	}
+
+	const boost::shared_ptr<const SynapseChainLengthCollection> cc =
+	    boost::dynamic_pointer_cast<const SynapseChainLengthCollection>(
+	        at(Collection_ID::SynapseChainLength));
+	return cc;
+}
+
 #endif
 
 /*

@@ -24,7 +24,8 @@
 #include "calibtic/HMF/SynapseCalibration.h"
 #include "calibtic/HMF/L1CrossbarCollection.h"
 #include "calibtic/HMF/L1CrossbarCalibration.h"
-
+#include "calibtic/HMF/SynapseChainLengthCollection.h"
+#include "calibtic/HMF/SynapseChainLengthCalibration.h"
 
 #include "calibtic/HMF/ADC/ADCCalibration.h"
 #include "calibtic/HMF/ADC/QuadraticADCCalibration.h"
@@ -57,6 +58,8 @@ BOOST_CLASS_EXPORT(HMF::SynapseCalibration)
 BOOST_CLASS_EXPORT(HMF::SynapseRowCalibration)
 BOOST_CLASS_EXPORT(HMF::L1CrossbarCollection)
 BOOST_CLASS_EXPORT(HMF::L1CrossbarCalibration)
+BOOST_CLASS_EXPORT(HMF::SynapseChainLengthCollection)
+BOOST_CLASS_EXPORT(HMF::SynapseChainLengthCalibration)
 
 BOOST_CLASS_EXPORT(HMF::ADC::ADCCalibration)
 BOOST_CLASS_EXPORT(HMF::ADC::QuadraticADCCalibration)
@@ -83,6 +86,8 @@ static int __void_cast_register()
 	void_cast_register<HMF::SharedCalibration, Calibration>();
 	void_cast_register<HMF::L1CrossbarCollection, Collection>();
 	void_cast_register<HMF::L1CrossbarCalibration, Calibration>();
+	void_cast_register<HMF::SynapseChainLengthCollection, Collection>();
+	void_cast_register<HMF::SynapseChainLengthCalibration, Calibration>();
 
 	void_cast_register<HMF::ADC::ADCCalibration, Calibration>();
 	void_cast_register<HMF::ADC::QuadraticADCCalibration, Calibration>();
