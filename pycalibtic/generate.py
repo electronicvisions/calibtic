@@ -32,6 +32,7 @@ shared_ptr_class_factories = [
     'STPUtilizationCalibration', 'QuadraticADCCalibration',
     'L1CrossbarCollection', 'L1CrossbarCalibration',
     'SynapseChainLengthCollection', 'SynapseChainLengthCalibration',
+    'SynapseSwitchCollection', 'SynapseSwitchCalibration',
 ]
 
 for c in ns.find(mb, 'classes', shared_ptr_class_factories):

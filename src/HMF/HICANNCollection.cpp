@@ -14,6 +14,7 @@ HICANNCollection::HICANNCollection()
 	boost::shared_ptr<SynapseRowCollection> sc(new SynapseRowCollection);
 	boost::shared_ptr<L1CrossbarCollection> cc(new L1CrossbarCollection);
 	boost::shared_ptr<SynapseChainLengthCollection> scl(new SynapseChainLengthCollection);
+	boost::shared_ptr<SynapseSwitchCollection> ss(new SynapseSwitchCollection);
 
 	erase(Collection_ID::Neuron);
 	insert(Collection_ID::Neuron, nc);
@@ -25,6 +26,8 @@ HICANNCollection::HICANNCollection()
 	insert(Collection_ID::L1Crossbar, cc);
 	erase(Collection_ID::SynapseChainLength);
 	insert(Collection_ID::SynapseChainLength, scl);
+	erase(Collection_ID::SynapseSwitches);
+	insert(Collection_ID::SynapseSwitches, ss);
 }
 
 HICANNCollection::~HICANNCollection()
@@ -38,6 +41,7 @@ void HICANNCollection::setDefaults()
 	atSynapseRowCollection()->setDefaults();
 	atL1CrossbarCollection()->setDefaults();
 	atSynapseChainLengthCollection()->setDefaults();
+	atSynapseSwitchCollection()->setDefaults();
 }
 
 boost::shared_ptr<NeuronCollection> HICANNCollection::atNeuronCollection()
@@ -96,6 +100,14 @@ boost::shared_ptr<SynapseChainLengthCollection> HICANNCollection::atSynapseChain
 	    at(Collection_ID::SynapseChainLength));
 }
 
+boost::shared_ptr<SynapseSwitchCollection> HICANNCollection::atSynapseSwitchCollection()
+{
+	if (!exists(Collection_ID::SynapseSwitches)) {
+		throw std::runtime_error("HICANNCollection: missing SynapseSwitch collection");
+	}
+
+	return boost::dynamic_pointer_cast<SynapseSwitchCollection>(at(Collection_ID::SynapseSwitches));
+}
 
 #ifndef PYPLUSPLUS
 const boost::shared_ptr<const NeuronCollection> HICANNCollection::atNeuronCollection() const {
@@ -153,6 +165,19 @@ HICANNCollection::atSynapseChainLengthCollection() const
 	    boost::dynamic_pointer_cast<const SynapseChainLengthCollection>(
 	        at(Collection_ID::SynapseChainLength));
 	return cc;
+}
+
+const boost::shared_ptr<const SynapseSwitchCollection> HICANNCollection::atSynapseSwitchCollection()
+    const
+{
+	if (!exists(Collection_ID::SynapseSwitches)) {
+		throw std::runtime_error("HICANNCollection: missing synapseSwitch collection");
+	}
+
+	const boost::shared_ptr<const SynapseSwitchCollection> ss =
+	    boost::dynamic_pointer_cast<const SynapseSwitchCollection>(
+	        at(Collection_ID::SynapseSwitches));
+	return ss;
 }
 
 #endif

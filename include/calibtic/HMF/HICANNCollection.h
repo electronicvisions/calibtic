@@ -1,7 +1,7 @@
 #pragma once
 
-#include <iostream>
 #include <cmath>
+#include <iostream>
 #include <vector>
 #include "calibtic/Collection.h"
 #include "calibtic/HMF/HICANNCollection.h"
@@ -10,6 +10,8 @@
 #include "calibtic/HMF/SynapseRowCollection.h"
 #include "calibtic/HMF/L1CrossbarCollection.h"
 #include "calibtic/HMF/SynapseChainLengthCollection.h"
+#include "calibtic/HMF/SynapseRowCollection.h"
+#include "calibtic/HMF/SynapseSwitchCollection.h"
 
 namespace HMF {
 
@@ -58,6 +60,7 @@ public:
 	boost::shared_ptr<SynapseRowCollection> atSynapseRowCollection();
 	boost::shared_ptr<L1CrossbarCollection> atL1CrossbarCollection();
 	boost::shared_ptr<SynapseChainLengthCollection> atSynapseChainLengthCollection();
+	boost::shared_ptr<SynapseSwitchCollection> atSynapseSwitchCollection();
 
 #ifndef PYPLUSPLUS
 	const boost::shared_ptr<const NeuronCollection> atNeuronCollection() const;
@@ -69,6 +72,8 @@ public:
 	const boost::shared_ptr<const L1CrossbarCollection> atL1CrossbarCollection() const;
 
 	const boost::shared_ptr<const SynapseChainLengthCollection> atSynapseChainLengthCollection() const;
+
+	const boost::shared_ptr<const SynapseSwitchCollection> atSynapseSwitchCollection() const;
 #endif
 
 	virtual void copy(Collection const& rhs);
@@ -96,7 +101,8 @@ private:
 			Block = 1,
 			SynapseRow = 2,
 			L1Crossbar = 3,
-			SynapseChainLength = 4
+			SynapseChainLength = 4,
+			SynapseSwitches = 5,
 		};
 	};
 

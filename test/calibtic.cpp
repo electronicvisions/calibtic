@@ -26,6 +26,8 @@
 #include "calibtic/HMF/L1CrossbarCalibration.h"
 #include "calibtic/HMF/SynapseChainLengthCollection.h"
 #include "calibtic/HMF/SynapseChainLengthCalibration.h"
+#include "calibtic/HMF/SynapseSwitchCalibration.h"
+#include "calibtic/HMF/SynapseSwitchCollection.h"
 
 using namespace calibtic;
 using namespace calibtic::trafo;
@@ -1038,5 +1040,30 @@ TYPED_TEST(BasicTest, SynapseChainLengthCollection)
 		HMF::SynapseChainLengthCollection cc;
 		TestFixture::backend->load("fisch", md, cc);
 		ASSERT_EQ(42, cc.getMaxChainLength(HMF::Coordinate::VLineOnHICANN(42)));
+	}
+}
+
+TEST(Calibtic, SynapseSwitchCollection)
+{
+	HMF::SynapseSwitchCollection ss;
+	ss.setDefaults();
+	ASSERT_EQ(1, ss.getMaxSwitches(HMF::Coordinate::VLineOnHICANN(42)));
+
+	ss.setMaxSwitches(HMF::Coordinate::VLineOnHICANN(42), 4591);
+
+	ASSERT_EQ(4591, ss.getMaxSwitches(HMF::Coordinate::VLineOnHICANN(42)));
+}
+
+TYPED_TEST(BasicTest, SynapseSwitchCollection)
+{
+	MetaData md;
+	HMF::SynapseSwitchCollection ss;
+	ss.setMaxSwitches(HMF::Coordinate::VLineOnHICANN(42), 254);
+	TestFixture::backend->store("fisch", md, ss);
+
+	for (size_t ii = 0; ii < 2; ii++) {
+		HMF::SynapseSwitchCollection ssc;
+		TestFixture::backend->load("fisch", md, ssc);
+		ASSERT_EQ(254, ssc.getMaxSwitches(HMF::Coordinate::VLineOnHICANN(42)));
 	}
 }

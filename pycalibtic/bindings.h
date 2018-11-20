@@ -36,6 +36,8 @@
 #include "calibtic/HMF/L1CrossbarCalibration.h"
 #include "calibtic/HMF/SynapseChainLengthCollection.h"
 #include "calibtic/HMF/SynapseChainLengthCalibration.h"
+#include "calibtic/HMF/SynapseSwitchCalibration.h"
+#include "calibtic/HMF/SynapseSwitchCollection.h"
 
 /// Workaround for pickle support:
 /// We use the factory design pattern for class construction which implies that we handle only
