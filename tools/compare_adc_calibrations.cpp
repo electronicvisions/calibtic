@@ -9,8 +9,8 @@
 #include <boost/accumulators/statistics/min.hpp>
 #include <boost/accumulators/statistics/mean.hpp>
 
-#include "HMF/ADC/ADCCalibration.h"
-#include "HMF/ADC/QuadraticADCCalibration.h"
+#include "calibtic/HMF/ADC/ADCCalibration.h"
+#include "calibtic/HMF/ADC/QuadraticADCCalibration.h"
 #include "calibtic/trafo/Polynomial.h"
 
 using namespace HMF::ADC;

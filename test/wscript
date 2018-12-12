@@ -11,8 +11,6 @@ except ImportError:
 
 def depends(ctx):
     ctx('calibtic')
-    ctx('calibtic', 'backends')
-    ctx('calibtic', 'HMF')
     ctx('calibtic', 'pycalibtic')
 
 def options(opt):

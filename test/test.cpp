@@ -1,5 +1,5 @@
 #include <stdexcept>
-#include "test/test.h"
+#include "test.h"
 
 using namespace calibtic::backend;
 

@@ -19,10 +19,10 @@
 #include "calibtic/trafo/NegativePowersPolynomial.h"
 #include "calibtic/trafo/Constant.h"
 
-#include "HMF/NeuronCalibration.h"
-#include "HMF/NeuronCollection.h"
+#include "calibtic/HMF/NeuronCalibration.h"
+#include "calibtic/HMF/NeuronCollection.h"
 
-#include <backends/export.ipp>
+#include <calibtic/backends/export.ipp>
 
 using namespace calibtic;
 using namespace calibtic::backend;

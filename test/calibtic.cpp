@@ -2,7 +2,7 @@
 #include <sstream>
 #include <string>
 #include <cstdlib>
-#include "test/test.h"
+#include "test.h"
 
 #include "calibtic/Collection.h"
 #include "calibtic/Calibration.h"
@@ -15,12 +15,12 @@
 #include "calibtic/trafo/OneOverPolynomial.h"
 #include "calibtic/trafo/NegativePowersPolynomial.h"
 
-#include "HMF/NeuronCalibration.h"
-#include "HMF/NeuronCollection.h"
-#include "HMF/SharedCalibration.h"
-#include "HMF/SynapseCalibration.h"
-#include "HMF/SynapseRowCalibration.h"
-#include "HMF/SynapseRowCollection.h"
+#include "calibtic/HMF/NeuronCalibration.h"
+#include "calibtic/HMF/NeuronCollection.h"
+#include "calibtic/HMF/SharedCalibration.h"
+#include "calibtic/HMF/SynapseCalibration.h"
+#include "calibtic/HMF/SynapseRowCalibration.h"
+#include "calibtic/HMF/SynapseRowCollection.h"
 
 using namespace calibtic;
 using namespace calibtic::trafo;

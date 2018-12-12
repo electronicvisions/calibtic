@@ -1,4 +1,4 @@
-#include "test/test.h"
+#include "test.h"
 #include <stdexcept>
 #include <array>
 
@@ -9,7 +9,7 @@
 #include "euter/nativerandomgenerator.h"
 #include <boost/make_shared.hpp>
 
-#include "HMF/NeuronCalibration.h"
+#include "calibtic/HMF/NeuronCalibration.h"
 
 using namespace HMF;
 

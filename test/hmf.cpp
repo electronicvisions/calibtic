@@ -1,12 +1,12 @@
-#include "test/test.h"
+#include "test.h"
 
-#include "HMF/NeuronCalibration.h"
-#include "HMF/NeuronCollection.h"
-#include "HMF/HICANNCollection.h"
-#include "HMF/SharedCalibration.h"
-#include "HMF/BlockCollection.h"
-#include "HMF/SynapseRowCalibration.h"
-#include "HMF/SynapseRowCollection.h"
+#include "calibtic/HMF/NeuronCalibration.h"
+#include "calibtic/HMF/NeuronCollection.h"
+#include "calibtic/HMF/HICANNCollection.h"
+#include "calibtic/HMF/SharedCalibration.h"
+#include "calibtic/HMF/BlockCollection.h"
+#include "calibtic/HMF/SynapseRowCalibration.h"
+#include "calibtic/HMF/SynapseRowCollection.h"
 
 using namespace HMF;
 

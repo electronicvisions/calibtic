@@ -19,19 +19,19 @@
 #include "calibtic/backend/Backend.h"
 
 // HMF stuff
-#include "HMF/NeuronCollection.h"
-#include "HMF/BlockCollection.h"
-#include "HMF/HICANNCollection.h"
-#include "HMF/NeuronCalibration.h"
-#include "HMF/SharedCalibration.h"
-#include "HMF/HWNeuronParameter.h"
-#include "HMF/HWSharedParameter.h"
-#include "HMF/ADC/ADCCalibration.h"
-#include "HMF/SynapseCalibration.h"
-#include "HMF/GmaxConfig.h"
-#include "HMF/SynapseRowCalibration.h"
-#include "HMF/SynapseRowCollection.h"
-#include "HMF/STPUtilizationCalibration.h"
+#include "calibtic/HMF/NeuronCollection.h"
+#include "calibtic/HMF/BlockCollection.h"
+#include "calibtic/HMF/HICANNCollection.h"
+#include "calibtic/HMF/NeuronCalibration.h"
+#include "calibtic/HMF/SharedCalibration.h"
+#include "calibtic/HMF/HWNeuronParameter.h"
+#include "calibtic/HMF/HWSharedParameter.h"
+#include "calibtic/HMF/ADC/ADCCalibration.h"
+#include "calibtic/HMF/SynapseCalibration.h"
+#include "calibtic/HMF/GmaxConfig.h"
+#include "calibtic/HMF/SynapseRowCalibration.h"
+#include "calibtic/HMF/SynapseRowCollection.h"
+#include "calibtic/HMF/STPUtilizationCalibration.h"
 
 /// Workaround for pickle support:
 /// We use the factory design pattern for class construction which implies that we handle only
@@ -47,5 +47,5 @@
 #include <boost/serialization/export.hpp>
 #undef BOOST_CLASS_EXPORT
 #define BOOST_CLASS_EXPORT(T)  BOOST_CLASS_EXPORT_KEY(T)
-#include "backends/export.ipp"
+#include "calibtic/backends/export.ipp"
 #include <boost/serialization/export.hpp>

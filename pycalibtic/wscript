@@ -4,8 +4,6 @@ from waflib.extras import symwaf2ic
 
 def depends(ctx):
     ctx('calibtic')
-    ctx('calibtic', 'HMF')
-    ctx('calibtic', 'backends')
     ctx('pywrap')
     ctx('halbe', 'pyhalbe')
     ctx('euter', 'pycellparameters')
