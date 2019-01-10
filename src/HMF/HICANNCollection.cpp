@@ -30,6 +30,46 @@ HICANNCollection::HICANNCollection()
 	insert(Collection_ID::SynapseSwitches, ss);
 }
 
+void HICANNCollection::init_missing()
+{
+	if (!exists(Collection_ID::Neuron)) {
+		erase(Collection_ID::Neuron);
+		boost::shared_ptr<NeuronCollection> nc(new NeuronCollection);
+		insert(Collection_ID::Neuron, nc);
+		atNeuronCollection()->setDefaults();
+	}
+	if (!exists(Collection_ID::Block)) {
+		erase(Collection_ID::Block);
+		boost::shared_ptr<BlockCollection> bc(new BlockCollection);
+		insert(Collection_ID::Block, bc);
+		atBlockCollection()->setDefaults();
+	}
+	if (!exists(Collection_ID::SynapseRow)) {
+		erase(Collection_ID::SynapseRow);
+		boost::shared_ptr<SynapseRowCollection> sc(new SynapseRowCollection);
+		insert(Collection_ID::SynapseRow, sc);
+		atSynapseRowCollection()->setDefaults();
+	}
+	if (!exists(Collection_ID::L1Crossbar)) {
+		erase(Collection_ID::L1Crossbar);
+		boost::shared_ptr<L1CrossbarCollection> cc(new L1CrossbarCollection);
+		insert(Collection_ID::L1Crossbar, cc);
+		atL1CrossbarCollection()->setDefaults();
+	}
+	if (!exists(Collection_ID::SynapseChainLength)) {
+		erase(Collection_ID::SynapseChainLength);
+		boost::shared_ptr<SynapseChainLengthCollection> scl(new SynapseChainLengthCollection);
+		insert(Collection_ID::SynapseChainLength, scl);
+		atSynapseChainLengthCollection()->setDefaults();
+	}
+	if (!exists(Collection_ID::SynapseSwitches)) {
+		erase(Collection_ID::SynapseSwitches);
+		boost::shared_ptr<SynapseSwitchCollection> ss(new SynapseSwitchCollection);
+		insert(Collection_ID::SynapseSwitches, ss);
+		atSynapseSwitchCollection()->setDefaults();
+	}
+}
+
 HICANNCollection::~HICANNCollection()
 {
 }

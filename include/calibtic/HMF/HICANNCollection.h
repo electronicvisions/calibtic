@@ -22,6 +22,7 @@ public:
 	HICANNCollection();
 	virtual ~HICANNCollection();
 
+	void init_missing();
 	void setDefaults();
 
 	// FIXME these function should return FGControl
@@ -144,6 +145,9 @@ void HICANNCollection::serialize(Archiver& ar, unsigned int const version)
 		   & make_nvp(    "pll", mPLLFrequency)
 		   & make_nvp(  "start", mStartingCycle);
 	}
+
+	init_missing(); // if new contents are not supported by file, do not override them,
+	                // but use defaults
 }
 
 /* FIXME copied from NeuronCalibration
