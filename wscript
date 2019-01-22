@@ -5,6 +5,7 @@ def depends(ctx):
     # not actually a dependency, but build tests by default
     ctx.recurse('test')
 
+    ctx('code-format')
     ctx('halbe')
     ctx('euter')
     ctx('euter', 'pycellparameters')
@@ -18,13 +19,13 @@ def depends(ctx):
 def options(opt):
     opt.load('compiler_cxx')
     opt.load('boost')
-    opt.load('documentation')
+    opt.load('doxygen')
 
 
 def configure(cfg):
     cfg.load('compiler_cxx')
     cfg.load('boost')
-    cfg.load('documentation')
+    cfg.load('doxygen')
 
     # runtime library loading
     cfg.check_cxx(
@@ -166,9 +167,11 @@ def doc(dcx):
     '''build documentation (doxygen)'''
 
     dcx(
-            features    = 'doxygen',
-            doxyinput   = ['HMF','backends','calibtic'], # overrides doxy-par: INPUT (list of paths)
-            doxyoutput  = "doc",                         # overrides doxy-par: OUTPUT_DIRECTORY, (a path)
-            pdffile     = 'HMF_calibtic-manual.pdf',     # a pdf file to generate, relative to OUTPUT_DIRECTORY
-            doxydebug   = True,                          # generate debug output (the final pars to OUTPUT_DIRECTORY/doxypars.debug)
+        features = 'doxygen',
+        doxyfile = dcx.root.make_node('%s/code-format/doxyfile' % dcx.env.PREFIX),
+        install_path = 'doc/calibtic',
+        pars = {
+            "PROJECT_NAME": "\"Calibration database for BrainScaleS-1\"",
+            "INPUT": "%s/calibtic/include/calibtic" % dcx.env.PREFIX
+        },
     )
