@@ -48,7 +48,7 @@ void BinaryBackend::load(
 	MetaData& metadata,
 	Collection& c)
 {
-	LOG4CXX_DEBUG(logger, "Load Collection");
+	LOG4CXX_DEBUG(logger, "Load Collection " + id);
 	boost::shared_ptr<Collection> ptr;
 	load("Collection", id, metadata, ptr);
 	c.copy(*ptr);
@@ -59,7 +59,7 @@ void BinaryBackend::load(
 	MetaData& metadata,
 	Calibration& c)
 {
-	LOG4CXX_DEBUG(logger, "Load Calibration");
+	LOG4CXX_DEBUG(logger, "Load Calibration " + id);
 	boost::shared_ptr<Calibration> ptr;
 	load("Calibration", id, metadata, ptr);
 	c.copy(*ptr);
@@ -69,7 +69,7 @@ void BinaryBackend::load(std::string const& id,
 	 MetaData& metadata,
 	 boost::shared_ptr<Calibration> & ptr)
 {
-	LOG4CXX_DEBUG(logger, "Load Collection");
+	LOG4CXX_DEBUG(logger, "Load Collection " + id);
 	load("Collection", id, metadata, ptr);
 }
 
