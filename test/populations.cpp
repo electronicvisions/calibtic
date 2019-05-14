@@ -11,6 +11,7 @@
 
 #include "calibtic/HMF/NeuronCalibration.h"
 
+using namespace euter;
 using namespace HMF;
 
 std::array<std::string, 21> const names {{
