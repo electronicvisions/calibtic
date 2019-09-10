@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import os
 
 
 def depends(ctx):
@@ -103,16 +104,16 @@ def build(bld):
             install_path    = '${PREFIX}/lib',
     )
 
-    for tool in bld.path.parent.ant_glob('tools/*.cpp'):
+    for tool in bld.path.ant_glob('tools/*.cpp'):
         bld(
             target       = os.path.splitext(tool.name)[0],
             features     = 'cxx cxxprogram',
             source       = tool,
             use          = ['hmf_calibration'],
-            install_path = '${PREFIX}/bin/tools',
+            install_path = '${PREFIX}/bin',
         )
 
-    for tool in bld.path.parent.ant_glob('tools/*.py'):
+    for tool in bld.path.ant_glob('tools/*.py'):
         bld.install_as(os.path.join('${PREFIX}/bin',
                                     os.path.splitext(tool.name)[0]),
                        tool,
