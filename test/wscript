@@ -17,13 +17,11 @@ def options(opt):
     recurse(opt)
     opt.load('compiler_cxx')
     opt.load('pytest')
-    opt.load('post_task')
 
 def configure(cfg):
     recurse(cfg)
     cfg.load('compiler_cxx')
     cfg.load('pytest')
-    cfg.load('post_task')
 
     cfg.check_cxx(
             lib='rt',
@@ -34,7 +32,7 @@ def build(bld):
     recurse(bld)
 
     bld(target          = 'calibtic-main',
-        features        = 'cxx cxxprogram gtest post_task',
+        features        = 'cxx cxxprogram gtest',
         source          = bld.path.ant_glob('*.cpp'),
         install_path    = os.path.join('bin', 'tests'),
         use             = [
@@ -43,7 +41,7 @@ def build(bld):
                 'hmf_calibration',
                 'RT',
             ],
-        post_task = ['calibtic_xml'],
+        depends_on = ['calibtic_xml'],
     )
 
     bld(
@@ -52,7 +50,7 @@ def build(bld):
             'pycalibtictest.py',
             'test_issue1166.py'
             ],
-        features        = 'pytest post_task',
+        features        = 'pytest',
         use             = ['pycalibtic', 'calibtic_xml'],
-        post_task = ['calibtic_xml'],
+        depends_on = ['calibtic_xml'],
         install_path    = os.path.join('bin', 'tests'))

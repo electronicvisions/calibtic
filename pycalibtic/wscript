@@ -27,7 +27,7 @@ def configure(cfg):
 def build(bld):
     bld(
             target         = 'pycalibtic',
-            features       = 'cxx cxxshlib pyext pyembed pypp post_task',
+            features       = 'cxx cxxshlib pyext pyembed pypp',
             source         =  bld.path.ant_glob('*.cpp'),
             install_path    = '${PREFIX}/lib',
             use            = [
