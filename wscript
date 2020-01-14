@@ -64,10 +64,7 @@ def build(bld):
 
     bld(
         target='calibtic_inc',
-        export_includes=['include'],
-        use=[
-            'boost_serialization',
-        ]
+        export_includes=['include']
     )
 
     bld.shlib(
@@ -81,6 +78,7 @@ def build(bld):
             'calibtic_inc',
             'rant',
             'pywrap',
+            'boost_serialization'
         ],
         # gccxml requires non-variadic implementation of boost::variant for python wrappers
         defines='BOOST_VARIANT_DO_NOT_USE_VARIADIC_TEMPLATES',
