@@ -3,6 +3,8 @@
 #include <cmath>
 #include <vector>
 
+#include "halco/hicann/v2/neuron.h"
+
 namespace HMF {
 
 NeuronCollection::NeuronCollection() :
@@ -22,7 +24,7 @@ void NeuronCollection::setDefaults()
 
 	boost::shared_ptr<NeuronCalibration> nc(new NeuronCalibration);
 	nc->setDefaults();
-	for (size_t ii = 0; ii<HMF::Coordinate::NeuronOnHICANN::enum_type::size; ++ii) {
+	for (size_t ii = 0; ii<halco::hicann::v2::NeuronOnHICANN::enum_type::size; ++ii) {
 		erase(ii);
 		insert(ii, nc);
 	}

@@ -2,7 +2,7 @@
 
 #include "calibtic/HMF/SynapseSwitchCalibration.h"
 #include <vector>
-#include "hal/Coordinate/iter_all.h"
+#include "halco/common/iter_all.h"
 
 namespace HMF {
 
@@ -12,8 +12,8 @@ SynapseSwitchCollection::~SynapseSwitchCollection() {}
 
 void SynapseSwitchCollection::setDefaults()
 {
-	for (size_t ii : HMF::Coordinate::iter_all<HMF::Coordinate::VLineOnHICANN>()) {
-		HMF::Coordinate::VLineOnHICANN line(ii);
+	for (size_t ii : halco::common::iter_all<halco::hicann::v2::VLineOnHICANN>()) {
+		halco::hicann::v2::VLineOnHICANN line(ii);
 		boost::shared_ptr<SynapseSwitchCalibration> ssc(new SynapseSwitchCalibration);
 		ssc->setDefaults();
 		erase(line.value());
@@ -21,7 +21,7 @@ void SynapseSwitchCollection::setDefaults()
 	}
 }
 
-size_t SynapseSwitchCollection::getMaxSwitches(HMF::Coordinate::VLineOnHICANN vline) const
+size_t SynapseSwitchCollection::getMaxSwitches(halco::hicann::v2::VLineOnHICANN vline) const
 {
 	if (!exists(vline.value()) || !at(vline.value())) {
 		throw std::runtime_error("No Calibration data for SynapseSwitchCollection");
@@ -31,7 +31,7 @@ size_t SynapseSwitchCollection::getMaxSwitches(HMF::Coordinate::VLineOnHICANN vl
 	return ssc.getMaxSwitches();
 }
 
-void SynapseSwitchCollection::setMaxSwitches(HMF::Coordinate::VLineOnHICANN vline, size_t const s)
+void SynapseSwitchCollection::setMaxSwitches(halco::hicann::v2::VLineOnHICANN vline, size_t const s)
 {
 	if (exists(vline.value()) && at(vline.value())) {
 		SynapseSwitchCalibration& ssc =

@@ -52,7 +52,7 @@ size_t HWNeuronParameter::size()
 	return HICANN::neuron_parameter::__last_neuron;
 }
 
-void HWNeuronParameter::toHW(HMF::Coordinate::NeuronOnHICANN const& n, HICANN::FGControl& fg) const
+void HWNeuronParameter::toHW(halco::hicann::v2::NeuronOnHICANN const& n, HICANN::FGControl& fg) const
 {
 	auto& log = Logger::instance();
 
@@ -72,7 +72,7 @@ void HWNeuronParameter::toHW(HMF::Coordinate::NeuronOnHICANN const& n, HICANN::F
 	}
 }
 
-void HWNeuronParameter::fromHW(HMF::Coordinate::NeuronOnHICANN const& n, HICANN::FGControl const& fg)
+void HWNeuronParameter::fromHW(halco::hicann::v2::NeuronOnHICANN const& n, HICANN::FGControl const& fg)
 {
 	using HMF::HICANN::neuron_parameter;
 	for (int pp=0; pp<neuron_parameter::__last_neuron; ++pp)

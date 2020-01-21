@@ -1,6 +1,6 @@
 #include "calibtic/HMF/BlockCollection.h"
 #include "calibtic/HMF/SharedCalibration.h"
-#include "hal/Coordinate/HMFGeometry.h"
+#include "halco/hicann/v2/fg.h"
 #include <cmath>
 #include <vector>
 
@@ -18,7 +18,7 @@ void BlockCollection::setDefaults()
 {
 	boost::shared_ptr<SharedCalibration> sc(new SharedCalibration);
 	sc->setDefaults();
-	for (size_t ii = 0; ii<HMF::Coordinate::FGBlockOnHICANN::enum_type::size; ++ii) {
+	for (size_t ii = 0; ii<halco::hicann::v2::FGBlockOnHICANN::enum_type::size; ++ii) {
 		erase(ii);
 		insert(ii, sc);
 	}

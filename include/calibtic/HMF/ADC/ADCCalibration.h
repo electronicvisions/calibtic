@@ -11,7 +11,7 @@
 
 #include "calibtic/HMF/ADC/VoltageMeasurement.h"
 
-#include "hal/Coordinate/HMFGeometry.h"
+#include "halco/hicann/v2/external.h"
 #include "hal/ADC/USBSerial.h"
 
 #include "pywrap/compat/numpy.hpp"
@@ -26,7 +26,7 @@ class ADCCalibration :
 	public calibtic::Calibration
 {
 public:
-	typedef Coordinate::ChannelOnADC key_type;
+	typedef halco::hicann::v2::ChannelOnADC key_type;
 
 	ADCCalibration();
 	virtual ~ADCCalibration();

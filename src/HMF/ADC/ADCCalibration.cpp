@@ -9,7 +9,8 @@
 
 #include "calibtic/trafo/Polynomial.h"
 #include "pythonic/zip.h"
-#include "hal/Coordinate/iter_all.h"
+#include "halco/common/iter_all.h"
+#include "halco/hicann/v2/external.h"
 #include "calibtic/HMF/ADC/QuadraticADCCalibration.h"
 
 namespace HMF {
@@ -214,7 +215,7 @@ bool ADCCalibration::isComplete() const
 {
 	if (size() != static_cast<size_t>(key_type::end))
 		return false;
-	for (auto channel : Coordinate::iter_all<Coordinate::ChannelOnADC>())
+	for (auto channel : halco::common::iter_all<halco::hicann::v2::ChannelOnADC>())
 	{
 		if (channel != key_type::GND && !exists(channel))
 			return false;
@@ -228,7 +229,7 @@ ADCCalibration::getDefaultCalibration()
 	ADCCalibration calib;
 	const double a0 = + 1.8;
 	const double a1 = - 1.8 / 4095.0;
-	for (auto channel : Coordinate::iter_all<Coordinate::ChannelOnADC>())
+	for (auto channel : halco::common::iter_all<halco::hicann::v2::ChannelOnADC>())
 	{
 		if (channel != key_type::GND)
 			calib.reset(channel, calibtic::trafo::Polynomial::create({a0, a1}));
@@ -242,7 +243,7 @@ ADCCalibration::getESSCalibration()
 	ADCCalibration calib;
 	const double a0 = 0.;
 	const double a1 = 1.8/65535;
-	for (auto channel : Coordinate::iter_all<Coordinate::ChannelOnADC>())
+	for (auto channel : halco::common::iter_all<halco::hicann::v2::ChannelOnADC>())
 	{
 		if (channel != key_type::GND)
 		    calib.reset(channel, calibtic::trafo::Polynomial::create({a0, a1}));

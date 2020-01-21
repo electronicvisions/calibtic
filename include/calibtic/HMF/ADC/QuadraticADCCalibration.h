@@ -10,7 +10,7 @@
 
 #include "calibtic/HMF/ADC/VoltageMeasurement.h"
 
-#include "hal/Coordinate/HMFGeometry.h"
+#include "halco/hicann/v2/fwd.h"
 
 #include "pywrap/compat/numpy.hpp"
 
@@ -33,7 +33,7 @@ class QuadraticADCCalibration :
 	public ADCCalibration
 {
 public:
-	typedef Coordinate::ChannelOnADC key_type;
+	typedef halco::hicann::v2::ChannelOnADC key_type;
 	typedef std::array<QuadraticCoefficients, 8> coefficents_t;
 
 	QuadraticADCCalibration();

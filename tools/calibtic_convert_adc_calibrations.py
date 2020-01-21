@@ -6,7 +6,7 @@ import argparse
 import glob
 import pycalibtic
 import re
-from Coordinate import ADC
+from pyhalco_hicann_v2 import ADC
 
 def main():
     parser = argparse.ArgumentParser()

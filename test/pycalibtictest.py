@@ -3,6 +3,7 @@
 import unittest
 import pycalibtic as cal
 import pyhalbe
+import pyhalco_hicann_v2
 import pycellparameters as cell
 import numpy as np
 import pywrapstdvector
@@ -135,12 +136,12 @@ class TestPyCalibtic(unittest.TestCase):
         adc = cal.ADCCalibration()
 
         # applying calibration on empty object should fail
-        channel = pyhalbe.Coordinate.ChannelOnADC(0)
+        channel = pyhalco_hicann_v2.ChannelOnADC(0)
         self.assertRaises(RuntimeError, adc.apply, channel, data)
 
         # generate polynomials for each channel
-        c_gnd = pyhalbe.Coordinate.ChannelOnADC(-1)
-        for cc in pyhalbe.Coordinate.iter_all(pyhalbe.Coordinate.ChannelOnADC):
+        c_gnd = pyhalco_hicann_v2.ChannelOnADC(-1)
+        for cc in pyhalco_hicann_v2.iter_all(pyhalco_hicann_v2.ChannelOnADC):
             if cc == c_gnd:
                 # skip GND "channel"
                 continue
@@ -157,7 +158,7 @@ class TestPyCalibtic(unittest.TestCase):
 
             backend = loadXMLBackend(tmp_dir)
             md = cal.MetaData()
-            id = pyhalbe.Coordinate.ADC("0")
+            id = pyhalbe.ADC.USBSerial("0")
             adc.store(backend, md, id)
 
             adc2 = cal.ADCCalibration()

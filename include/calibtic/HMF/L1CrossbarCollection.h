@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include "calibtic/Collection.h"
-#include "hal/Coordinate/HMFGeometry.h"
+#include "halco/hicann/v2/l1.h"
 
 namespace HMF {
 
@@ -35,7 +35,7 @@ private:
 	friend class boost::serialization::access;
 	template <typename Archiver>
 	void serialize(Archiver& ar, unsigned int const);
-	static const size_t VtoH_offset = HMF::Coordinate::VLineOnHICANN::max + 1; // cant have it const without being static. assuming we dont use heterogeneous hardware, static should not be a problem
+	static const size_t VtoH_offset = halco::hicann::v2::VLineOnHICANN::max + 1; // cant have it const without being static. assuming we dont use heterogeneous hardware, static should not be a problem
 };
 
 } // HMF

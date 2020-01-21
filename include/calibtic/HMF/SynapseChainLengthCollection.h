@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include "calibtic/Collection.h"
-#include "hal/Coordinate/HMFGeometry.h"
+#include "halco/hicann/v2/fwd.h"
 
 namespace HMF {
 
@@ -14,8 +14,8 @@ public:
 
 	void setDefaults();
 
-	size_t getMaxChainLength(HMF::Coordinate::VLineOnHICANN vline) const;
-	void setMaxChainLength(HMF::Coordinate::VLineOnHICANN vline, size_t const s);
+	size_t getMaxChainLength(halco::hicann::v2::VLineOnHICANN vline) const;
+	void setMaxChainLength(halco::hicann::v2::VLineOnHICANN vline, size_t const s);
 
 	// Py++ factory function
 	static boost::shared_ptr<SynapseChainLengthCollection> create();

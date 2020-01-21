@@ -7,13 +7,14 @@
 
 #include "calibtic/trafo/Polynomial.h"
 #include "pythonic/zip.h"
-#include "hal/Coordinate/iter_all.h"
+#include "halco/common/iter_all.h"
+#include "halco/hicann/v2/external.h"
 
 namespace HMF {
 namespace ADC {
 
 using namespace pythonic;
-using namespace Coordinate;
+using namespace halco::hicann::v2;
 
 QuadraticADCCalibration::QuadraticADCCalibration() :
 	ADCCalibration(0)

@@ -7,6 +7,7 @@ def depends(ctx):
     ctx.recurse('test')
 
     ctx('code-format')
+    ctx('halco')
     ctx('halbe')
     ctx('halco')
     ctx('euter')
@@ -96,6 +97,7 @@ def build(bld):
                 'GSL4CALIBTIC',
                 'calibtic',
                 'halbe_container',
+                'halco_hicann_v2',
                 'euter',
                 'pythonic',
                 'cellparameters_access',

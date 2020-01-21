@@ -54,7 +54,7 @@ size_t HWSharedParameter::size()
 	return HICANN::shared_parameter::__last_shared;
 }
 
-void HWSharedParameter::toHW(HMF::Coordinate::FGBlockOnHICANN const& fgb, HICANN::FGControl& fg) const
+void HWSharedParameter::toHW(halco::hicann::v2::FGBlockOnHICANN const& fgb, HICANN::FGControl& fg) const
 {
 	auto& log = Logger::instance();
 
@@ -65,12 +65,12 @@ void HWSharedParameter::toHW(HMF::Coordinate::FGBlockOnHICANN const& fgb, HICANN
 
 		// some parameters are local to the top/bottom FG blocks
 
-		if(fgb.toSideHorizontal() == HMF::Coordinate::top &&
+		if(fgb.toSideHorizontal() == halco::common::top &&
 		   (pp == shared_parameter::V_bexp || pp == shared_parameter::V_clrc)) {
 		    continue;
 		}
 
-		if(fgb.toSideHorizontal() == HMF::Coordinate::bottom &&
+		if(fgb.toSideHorizontal() == halco::common::bottom &&
 		   (pp == shared_parameter::V_bout || pp == shared_parameter::V_clra)) {
 		    continue;
 		}
@@ -92,7 +92,7 @@ void HWSharedParameter::toHW(HMF::Coordinate::FGBlockOnHICANN const& fgb, HICANN
 	}
 }
 
-void HWSharedParameter::fromHW(HMF::Coordinate::FGBlockOnHICANN const& fgb, HICANN::FGControl const& fg)
+void HWSharedParameter::fromHW(halco::hicann::v2::FGBlockOnHICANN const& fgb, HICANN::FGControl const& fg)
 {
 	using HMF::HICANN::shared_parameter;
 	for (int pp=0; pp<shared_parameter::__last_shared; ++pp)

@@ -3,7 +3,7 @@
 #include <string>
 #include <cstdlib>
 #include "test.h"
-#include "hal/Coordinate/iter_all.h"
+#include "halco/common/iter_all.h"
 
 #include "calibtic/Collection.h"
 #include "calibtic/Calibration.h"
@@ -968,13 +968,13 @@ TEST(Calibtic, L1CrossbarCollection)
 	using namespace HMF;
 	L1CrossbarCollection l1co;
 	l1co.setDefaults();
-	ASSERT_EQ(1, l1co.getMaxSwitchesPerRow(HMF::Coordinate::VLineOnHICANN(42)));
-	ASSERT_EQ(1, l1co.getMaxSwitchesPerRow(HMF::Coordinate::HLineOnHICANN(42)));
+	ASSERT_EQ(1, l1co.getMaxSwitchesPerRow(halco::hicann::v2::VLineOnHICANN(42)));
+	ASSERT_EQ(1, l1co.getMaxSwitchesPerRow(halco::hicann::v2::HLineOnHICANN(42)));
 
-	l1co.setMaxSwitchesPerRow(HMF::Coordinate::VLineOnHICANN(42), 4);
+	l1co.setMaxSwitchesPerRow(halco::hicann::v2::VLineOnHICANN(42), 4);
 
-	ASSERT_EQ(4, l1co.getMaxSwitchesPerRow(HMF::Coordinate::VLineOnHICANN(42)));
-	ASSERT_EQ(1, l1co.getMaxSwitchesPerRow(HMF::Coordinate::HLineOnHICANN(42)));
+	ASSERT_EQ(4, l1co.getMaxSwitchesPerRow(halco::hicann::v2::VLineOnHICANN(42)));
+	ASSERT_EQ(1, l1co.getMaxSwitchesPerRow(halco::hicann::v2::HLineOnHICANN(42)));
 }
 
 TEST(calibtic, L1CrossbarCollection)
@@ -983,11 +983,11 @@ TEST(calibtic, L1CrossbarCollection)
 	L1CrossbarCollection l1co;
 	l1co.setDefaults();
 
-	for( size_t i : Coordinate::iter_all<Coordinate::VLineOnHICANN>() ){
-		l1co.setMaxSwitchesPerRow(Coordinate::VLineOnHICANN(i), 4);
+	for( size_t i : halco::common::iter_all<halco::hicann::v2::VLineOnHICANN>() ){
+		l1co.setMaxSwitchesPerRow(halco::hicann::v2::VLineOnHICANN(i), 4);
 	}
-	for( size_t i : Coordinate::iter_all<Coordinate::HLineOnHICANN>() ){
-		ASSERT_EQ(1, l1co.getMaxSwitchesPerRow(Coordinate::HLineOnHICANN(i)));
+	for( size_t i : halco::common::iter_all<halco::hicann::v2::HLineOnHICANN>() ){
+		ASSERT_EQ(1, l1co.getMaxSwitchesPerRow(halco::hicann::v2::HLineOnHICANN(i)));
 	}
 
 }
@@ -997,13 +997,13 @@ TYPED_TEST(BasicTest, L1CrossbarCollection)
 	using namespace HMF;
 	L1CrossbarCollection l1co;
 	l1co.setDefaults();
-	ASSERT_EQ(1, l1co.getMaxSwitchesPerRow(HMF::Coordinate::VLineOnHICANN(42)));
-	ASSERT_EQ(1, l1co.getMaxSwitchesPerRow(HMF::Coordinate::HLineOnHICANN(42)));
+	ASSERT_EQ(1, l1co.getMaxSwitchesPerRow(halco::hicann::v2::VLineOnHICANN(42)));
+	ASSERT_EQ(1, l1co.getMaxSwitchesPerRow(halco::hicann::v2::HLineOnHICANN(42)));
 
-	l1co.setMaxSwitchesPerRow(HMF::Coordinate::VLineOnHICANN(42), 4);
+	l1co.setMaxSwitchesPerRow(halco::hicann::v2::VLineOnHICANN(42), 4);
 
-	ASSERT_EQ(4, l1co.getMaxSwitchesPerRow(HMF::Coordinate::VLineOnHICANN(42)));
-	ASSERT_EQ(1, l1co.getMaxSwitchesPerRow(HMF::Coordinate::HLineOnHICANN(42)));
+	ASSERT_EQ(4, l1co.getMaxSwitchesPerRow(halco::hicann::v2::VLineOnHICANN(42)));
+	ASSERT_EQ(1, l1co.getMaxSwitchesPerRow(halco::hicann::v2::HLineOnHICANN(42)));
 
 	// test serialisation
 	MetaData md;
@@ -1013,8 +1013,8 @@ TYPED_TEST(BasicTest, L1CrossbarCollection)
 		L1CrossbarCollection l1co_load;
 		TestFixture::backend->load("fisch", md, l1co_load);
 
-		ASSERT_EQ(4, l1co_load.getMaxSwitchesPerRow(HMF::Coordinate::VLineOnHICANN(42)));
-		ASSERT_EQ(1, l1co_load.getMaxSwitchesPerRow(HMF::Coordinate::HLineOnHICANN(42)));
+		ASSERT_EQ(4, l1co_load.getMaxSwitchesPerRow(halco::hicann::v2::VLineOnHICANN(42)));
+		ASSERT_EQ(1, l1co_load.getMaxSwitchesPerRow(halco::hicann::v2::HLineOnHICANN(42)));
 	}
 }
 
@@ -1022,24 +1022,24 @@ TEST(Calibtic, SynapseChainLengthCollection)
 {
 	HMF::SynapseChainLengthCollection ch;
 	ch.setDefaults();
-	ASSERT_EQ(3, ch.getMaxChainLength(HMF::Coordinate::VLineOnHICANN(42)));
+	ASSERT_EQ(3, ch.getMaxChainLength(halco::hicann::v2::VLineOnHICANN(42)));
 
-	ch.setMaxChainLength(HMF::Coordinate::VLineOnHICANN(42), 1);
+	ch.setMaxChainLength(halco::hicann::v2::VLineOnHICANN(42), 1);
 
-	ASSERT_EQ(1, ch.getMaxChainLength(HMF::Coordinate::VLineOnHICANN(42)));
+	ASSERT_EQ(1, ch.getMaxChainLength(halco::hicann::v2::VLineOnHICANN(42)));
 }
 
 TYPED_TEST(BasicTest, SynapseChainLengthCollection)
 {
 	MetaData md;
 	HMF::SynapseChainLengthCollection ch;
-	ch.setMaxChainLength(HMF::Coordinate::VLineOnHICANN(42), 42);
+	ch.setMaxChainLength(halco::hicann::v2::VLineOnHICANN(42), 42);
 	TestFixture::backend->store("fisch", md, ch);
 
 	for (size_t ii = 0; ii < 2; ii++) {
 		HMF::SynapseChainLengthCollection cc;
 		TestFixture::backend->load("fisch", md, cc);
-		ASSERT_EQ(42, cc.getMaxChainLength(HMF::Coordinate::VLineOnHICANN(42)));
+		ASSERT_EQ(42, cc.getMaxChainLength(halco::hicann::v2::VLineOnHICANN(42)));
 	}
 }
 
@@ -1047,23 +1047,23 @@ TEST(Calibtic, SynapseSwitchCollection)
 {
 	HMF::SynapseSwitchCollection ss;
 	ss.setDefaults();
-	ASSERT_EQ(1, ss.getMaxSwitches(HMF::Coordinate::VLineOnHICANN(42)));
+	ASSERT_EQ(1, ss.getMaxSwitches(halco::hicann::v2::VLineOnHICANN(42)));
 
-	ss.setMaxSwitches(HMF::Coordinate::VLineOnHICANN(42), 4591);
+	ss.setMaxSwitches(halco::hicann::v2::VLineOnHICANN(42), 4591);
 
-	ASSERT_EQ(4591, ss.getMaxSwitches(HMF::Coordinate::VLineOnHICANN(42)));
+	ASSERT_EQ(4591, ss.getMaxSwitches(halco::hicann::v2::VLineOnHICANN(42)));
 }
 
 TYPED_TEST(BasicTest, SynapseSwitchCollection)
 {
 	MetaData md;
 	HMF::SynapseSwitchCollection ss;
-	ss.setMaxSwitches(HMF::Coordinate::VLineOnHICANN(42), 254);
+	ss.setMaxSwitches(halco::hicann::v2::VLineOnHICANN(42), 254);
 	TestFixture::backend->store("fisch", md, ss);
 
 	for (size_t ii = 0; ii < 2; ii++) {
 		HMF::SynapseSwitchCollection ssc;
 		TestFixture::backend->load("fisch", md, ssc);
-		ASSERT_EQ(254, ssc.getMaxSwitches(HMF::Coordinate::VLineOnHICANN(42)));
+		ASSERT_EQ(254, ssc.getMaxSwitches(halco::hicann::v2::VLineOnHICANN(42)));
 	}
 }

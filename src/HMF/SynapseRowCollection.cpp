@@ -1,6 +1,6 @@
 #include "calibtic/HMF/SynapseRowCollection.h"
 #include "calibtic/HMF/SynapseRowCalibration.h"
-#include "hal/Coordinate/HMFGeometry.h"
+#include "halco/hicann/v2/synapse.h"
 
 namespace HMF {
 
@@ -16,7 +16,7 @@ void SynapseRowCollection::setDefaults()
 {
 	boost::shared_ptr<SynapseRowCalibration> src(new SynapseRowCalibration);
 	src->setDefaults();
-	for (size_t ii = HMF::Coordinate::SynapseRowOnHICANN::min; ii<=HMF::Coordinate::SynapseRowOnHICANN::max; ++ii) {
+	for (size_t ii = halco::hicann::v2::SynapseRowOnHICANN::min; ii<=halco::hicann::v2::SynapseRowOnHICANN::max; ++ii) {
 		erase(ii);
 		insert(ii, src);
 	}
@@ -26,7 +26,7 @@ void SynapseRowCollection::setEssDefaults()
 {
 	boost::shared_ptr<SynapseRowCalibration> src(new SynapseRowCalibration);
 	src->setEssDefaults();
-	for (size_t ii = HMF::Coordinate::SynapseRowOnHICANN::min; ii<=HMF::Coordinate::SynapseRowOnHICANN::max; ++ii) {
+	for (size_t ii = halco::hicann::v2::SynapseRowOnHICANN::min; ii<=halco::hicann::v2::SynapseRowOnHICANN::max; ++ii) {
 		erase(ii);
 		insert(ii, src);
 	}

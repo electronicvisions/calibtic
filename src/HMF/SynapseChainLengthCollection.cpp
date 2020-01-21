@@ -1,7 +1,8 @@
 #include "calibtic/HMF/SynapseChainLengthCollection.h"
 
 #include <vector>
-#include "hal/Coordinate/iter_all.h"
+#include "halco/common/iter_all.h"
+#include "halco/hicann/v2/l1.h"
 #include "calibtic/HMF/SynapseChainLengthCalibration.h"
 
 namespace HMF {
@@ -12,8 +13,8 @@ SynapseChainLengthCollection::~SynapseChainLengthCollection() {}
 
 void SynapseChainLengthCollection::setDefaults()
 {
-	for (size_t ii : HMF::Coordinate::iter_all<HMF::Coordinate::VLineOnHICANN>()) {
-		HMF::Coordinate::VLineOnHICANN line(ii);
+	for (size_t ii : halco::common::iter_all<halco::hicann::v2::VLineOnHICANN>()) {
+		halco::hicann::v2::VLineOnHICANN line(ii);
 		boost::shared_ptr<SynapseChainLengthCalibration> sclc(new SynapseChainLengthCalibration);
 		sclc->setDefaults();
 		erase(line.value());
@@ -21,7 +22,7 @@ void SynapseChainLengthCollection::setDefaults()
 	}
 }
 
-size_t SynapseChainLengthCollection::getMaxChainLength(HMF::Coordinate::VLineOnHICANN vline) const
+size_t SynapseChainLengthCollection::getMaxChainLength(halco::hicann::v2::VLineOnHICANN vline) const
 {
 	if (!exists(vline.value()) || !at(vline.value())) {
 		throw std::runtime_error("No Calibration data for SynapseChainLengthCollection");
@@ -32,7 +33,7 @@ size_t SynapseChainLengthCollection::getMaxChainLength(HMF::Coordinate::VLineOnH
 }
 
 void SynapseChainLengthCollection::setMaxChainLength(
-    HMF::Coordinate::VLineOnHICANN vline, size_t const s)
+    halco::hicann::v2::VLineOnHICANN vline, size_t const s)
 {
 	if (exists(vline.value()) && at(vline.value())) {
 		SynapseChainLengthCalibration& sclc =

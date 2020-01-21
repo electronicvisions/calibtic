@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include "calibtic/Collection.h"
-#include "hal/Coordinate/HMFGeometry.h"
+#include "halco/hicann/v2/l1.h"
 
 namespace HMF {
 
@@ -14,8 +14,8 @@ public:
 
 	void setDefaults();
 
-	size_t getMaxSwitches(HMF::Coordinate::VLineOnHICANN vline) const;
-	void setMaxSwitches(HMF::Coordinate::VLineOnHICANN vline, size_t const s);
+	size_t getMaxSwitches(halco::hicann::v2::VLineOnHICANN vline) const;
+	void setMaxSwitches(halco::hicann::v2::VLineOnHICANN vline, size_t const s);
 
 	// Py++ factory function
 	static boost::shared_ptr<SynapseSwitchCollection> create();

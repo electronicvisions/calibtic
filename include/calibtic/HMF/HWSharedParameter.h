@@ -2,7 +2,7 @@
 
 #include <cstdlib>
 #include <vector>
-#include "hal/Coordinate/HMFGeometry.h"
+#include "halco/hicann/v2/fwd.h"
 #include "hal/HICANN/FGBlock.h" // for parameter enums
 #include "hal/HICANN/FGControl.h"
 
@@ -32,8 +32,8 @@ public:
 	std::vector<value_type>&       parameters();
 #endif
 
-	void toHW(HMF::Coordinate::FGBlockOnHICANN const& fgb, HICANN::FGControl& fg) const;
-	void fromHW(HMF::Coordinate::FGBlockOnHICANN const& fgb, HICANN::FGControl const& fg);
+	void toHW(halco::hicann::v2::FGBlockOnHICANN const& fgb, HICANN::FGControl& fg) const;
+	void fromHW(halco::hicann::v2::FGBlockOnHICANN const& fgb, HICANN::FGControl const& fg);
 
 private:
 	std::vector<value_type> mParam;
