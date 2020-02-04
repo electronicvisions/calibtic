@@ -89,8 +89,13 @@ def build(bld):
         install_path='${PREFIX}/lib',
     )
 
+    bld(target="hmf_calibration",
+        features = "use",
+        use = ["_hmf_calibration", "calibtic_xml", "calibtic_text", "calibtic_binary"]
+    )
+
     bld(
-            target          = 'hmf_calibration',
+            target          = '_hmf_calibration',
             features     = 'cxx cxxshlib',
             source          = bld.path.ant_glob('src/HMF/**/*.cpp'),
             use             = [
@@ -128,7 +133,7 @@ def build(bld):
             use             = [
                 'BOOST4CALIBTICBINARY',
                 'calibtic',
-                'hmf_calibration',
+                '_hmf_calibration',
                 ],
             includes        = '.',
             install_path    = '${PREFIX}/lib',
@@ -141,7 +146,7 @@ def build(bld):
             use             = [
                 'BOOST4CALIBTICTEXT',
                 'calibtic',
-                'hmf_calibration',
+                '_hmf_calibration',
                 ],
             includes        = '.',
             install_path    = '${PREFIX}/lib',
@@ -158,7 +163,7 @@ def build(bld):
             use             = [
                 'BOOST4CALIBTICXML',
                 'calibtic',
-                'hmf_calibration',
+                '_hmf_calibration',
                 ],
             includes        = '.',
             install_path    = '${PREFIX}/lib',
