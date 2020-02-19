@@ -8,6 +8,7 @@ def depends(ctx):
 
     ctx('code-format')
     ctx('halbe')
+    ctx('halco')
     ctx('euter')
     ctx('euter', 'pycellparameters')
     ctx('rant')
@@ -78,7 +79,8 @@ def build(bld):
             'calibtic_inc',
             'rant',
             'pywrap',
-            'boost_serialization'
+            'boost_serialization',
+            'halco_hicann_v2' # FIXME: artificial; only needed because of BOOST_MPL_LIMIT_LIST_SIZE
         ],
         # gccxml requires non-variadic implementation of boost::variant for python wrappers
         defines='BOOST_VARIANT_DO_NOT_USE_VARIADIC_TEMPLATES',
