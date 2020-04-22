@@ -13,7 +13,7 @@ from pysthal.command_line_util import add_default_coordinate_options
 
 def get_calibtic_name(wafer, hicann):
     wafer_id = wafer.value()
-    hicann_id = hicann.id().value()
+    hicann_id = hicann.toEnum().value()
     name = "w{}-h{}".format(int(wafer_id), int(hicann_id))
     return name
 
