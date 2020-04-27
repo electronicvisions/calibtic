@@ -69,4 +69,8 @@ if __name__ == "__main__":
         print "error: wafer and hicann have to be specified, e.g. --wafer 0 --hicann 276"
         exit(1)
 
+    if not ((args.outpath is None) == (args.outext is None)):
+        print "error: outpath and outext should be both -or none- provided"
+        exit(1)
+
     main(args.inpath, args.inext, args.outpath, args.outext, args.wafer, args.hicann)
