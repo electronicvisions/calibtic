@@ -124,7 +124,7 @@ def build(bld):
         bld.install_as(os.path.join('${PREFIX}/bin',
                                     os.path.splitext(tool.name)[0]),
                        tool,
-                       chmod=0755)
+                       chmod=0o755)
 
     bld.shlib(
             features='cxx cxxshlib',
