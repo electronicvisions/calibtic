@@ -35,7 +35,7 @@ typedef ::testing::Types<
     SynapseSwitchCollection,
     SynapseSwitchCalibration>
     TestedHMFObjects;
-TYPED_TEST_CASE(HMFCalibrationObject, TestedHMFObjects);
+TYPED_TEST_SUITE(HMFCalibrationObject, TestedHMFObjects);
 
 TYPED_TEST(HMFCalibrationObject, DefaultsCanBeSetTwice)
 {

@@ -6,7 +6,7 @@ class RandomTest :
 {};
 
 typedef ::testing::Types<char, int, unsigned int, long, float, double> random_types;
-TYPED_TEST_CASE(RandomTest, random_types);
+TYPED_TEST_SUITE(RandomTest, random_types);
 
 
 TYPED_TEST(RandomTest, Range)

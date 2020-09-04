@@ -91,7 +91,7 @@ TEST_P(PopulationWithCellType, HasSensibleDefaultCalibration)
     visitCellParameterVector(pop->parameters(), visitor, nc);
 }
 
-INSTANTIATE_TEST_CASE_P(Common,
+INSTANTIATE_TEST_SUITE_P(Common,
                         PopulationWithCellType,
                         ::testing::Values(
 	                        CellType::IF_cond_exp,

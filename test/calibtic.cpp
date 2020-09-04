@@ -36,7 +36,7 @@ using boost::shared_ptr;
 
 template<typename T>
 class BasicTest : public TestWithBackend<T> {};
-TYPED_TEST_CASE(BasicTest, BackendTypes);
+TYPED_TEST_SUITE(BasicTest, BackendTypes);
 
 TYPED_TEST(BasicTest, NeuronCalibration)
 {

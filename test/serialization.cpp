@@ -45,7 +45,7 @@ typedef ::testing::Types<
 	SynapseRowCalibration,
 	SynapseRowCollection
 > ContainerTypes;
-TYPED_TEST_CASE(CalibticTypes, ContainerTypes);
+TYPED_TEST_SUITE(CalibticTypes, ContainerTypes);
 
 // TODO: test other backends
 TYPED_TEST(CalibticTypes, HasSerialization) {
@@ -73,7 +73,7 @@ typedef ::testing::Types<
 	PowerOfTrafo,
 	Lookup
 > TrafoTypes;
-TYPED_TEST_CASE(TrafoSerialization, TrafoTypes);
+TYPED_TEST_SUITE(TrafoSerialization, TrafoTypes);
 
 template<typename T>
 class TrafoSerialization : public ::testing::Test
@@ -110,7 +110,7 @@ template<typename T>
 class CalibticCalibrationSerialization : public ::testing::Test
 {};
 
-TYPED_TEST_CASE(CalibticCalibrationSerialization, CalibrationTypes);
+TYPED_TEST_SUITE(CalibticCalibrationSerialization, CalibrationTypes);
 
 TYPED_TEST(CalibticCalibrationSerialization, TestBasePointerSerialization) {
 	boost::shared_ptr< TypeParam > original(new TypeParam());
