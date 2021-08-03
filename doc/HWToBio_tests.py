@@ -25,4 +25,4 @@ speedup = 10000
 cm_bio = 100. * pycalibtic.NeuronCalibrationParameters.big_cap
 bio_params = neuron_calib.applyNeuronReverse(HW_params, speedup, cm_bio)
 
-print bio_params
+print(bio_params)

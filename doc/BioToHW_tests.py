@@ -32,4 +32,4 @@ speedup = 10000
 
 HW_params = neuron_calib.applyNeuronCalibration(bio_params, speedup)
 
-print HW_params
+print(HW_params)

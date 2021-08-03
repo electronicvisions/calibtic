@@ -19,19 +19,19 @@ def main():
     backend.init()
 
     for calib in glob.glob('adc-*.xml'):
-        print "*" * 80
+        print("*" * 80)
         adc = ADC(re.match(r'adc-([\w\d]+)\.xml', calib).group(1))
-        print adc
+        print(adc)
         calib = pycalibtic.ADCCalibration()
         meta = calib.load(backend, adc)
         qcalib = pycalibtic.ADCCalibration.convertToQuadraticADCCalibration(calib)
-        print meta
-        print qcalib
+        print(meta)
+        print(qcalib)
         pycalibtic.storeADCCalibration(backend, qcalib, meta, adc)
         meta = pycalibtic.MetaData()
         pycalibtic.loadADCCalibration(backend, meta, adc)
-        print meta
-        print qcalib
+        print(meta)
+        print(qcalib)
 
 if __name__ == '__main__':
     main()

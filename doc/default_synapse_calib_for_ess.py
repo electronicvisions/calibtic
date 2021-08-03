@@ -44,8 +44,8 @@ required_max_hw_weight = transform_conductance_to_hardware( promised_maxed_bio_w
 
 sc = cal.SynapseCalibration()
 sc.setDefaults()
-print sc
-dws = range(16)
+print(sc)
+dws = list(range(16))
 aws = []
 
 for dw in dws:
@@ -62,17 +62,17 @@ settings = [
 all_weights = []
 for s in settings:
     scalar = compute_scalar(s['vgmax'],s['gmax_div'])
-    print s, scalar
+    print(s, scalar)
     pl.plot(dws,aws*scalar,"+",label=str(s))
     all_weights += (aws*scalar).tolist()
 
 max_weight =  np.max(all_weights)
 min_weight = np.min(all_weights)
-print "HW: Max =",max_weight,"Min =",min_weight,"Ratio =",max_weight/min_weight
+print("HW: Max =",max_weight,"Min =",min_weight,"Ratio =",max_weight/min_weight)
 
 max_weight_bio = transform_conductance_to_bio(max_weight, big_hw_cap, cm_bio,speedup)
 min_weight_bio = transform_conductance_to_bio(min_weight, big_hw_cap, cm_bio,speedup)
-print "Bio: Max =",max_weight_bio,"Min =",min_weight_bio,"Ratio =",max_weight_bio/min_weight_bio
+print("Bio: Max =",max_weight_bio,"Min =",min_weight_bio,"Ratio =",max_weight_bio/min_weight_bio)
 
 pl.axhline(y=required_max_hw_weight)
 pl.semilogy()

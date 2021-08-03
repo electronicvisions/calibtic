@@ -65,7 +65,7 @@ class TestPyCalibtic(unittest.TestCase):
     def test_Printer(self):
         def match(className):
             cl = getattr(cal, className)
-            self.assertRegexpMatches(cl().__str__(), '^%s:.*' % className)
+            self.assertRegex(cl().__str__(), '^%s:.*' % className)
 
         for cl in ['Collection', 'Calibration', 'NeuronCalibration',
                    'NeuronCollection', 'ADCCalibration', 'Constant', 'Polynomial',
@@ -327,8 +327,8 @@ class TestPyCalibtic(unittest.TestCase):
                     if not sr_calib.exists(gmax_config):
                         sr_calib.insert(gmax_config, sc)
                     else:
-                        print "Warning, calibration for synapse row ", row_address, "gmax_config", gmax_config, "already exists."
-                        print "Existing calib is not overwritten"
+                        print("Warning, calibration for synapse row ", row_address, "gmax_config", gmax_config, "already exists.")
+                        print("Existing calib is not overwritten")
         self.assertEqual(sr_coll.size(), 112) # one quadrant = 112 synapse rows
         self.assertEqual(sr_coll.at(2).size(),4) # 4 sel_gmax settings
 
@@ -346,7 +346,7 @@ class TestPyCalibtic(unittest.TestCase):
             analog_weights = np.zeros(256) # analog weights on hw
             n_used_syns = 100
             w = np.random.uniform(0.001,0.01,n_used_syns) # generate random weights in nano Siemens
-            random_indices = np.array(range(256))
+            random_indices = np.array(list(range(256)))
             np.random.shuffle(random_indices)
             analog_weights[random_indices[:n_used_syns]] = w
 
@@ -385,7 +385,7 @@ class TestPyCalibtic(unittest.TestCase):
 
         # throw exception
         # OutsideDomainException is not wrapped, checking for msg
-        self.assertRaisesRegexp(RuntimeError, "outside of domain.", poly1.apply, 4., cal.Transformation.THROW)
+        self.assertRaisesRegex(RuntimeError, "outside of domain.", poly1.apply, 4., cal.Transformation.THROW)
 
         # ignore domain
         self.assertEqual(poly1.apply(4., cal.Transformation.IGNORE), poly2.apply(4., cal.Transformation.IGNORE))
@@ -402,7 +402,7 @@ class TestPyCalibtic(unittest.TestCase):
         nc = cal.NeuronCalibration()
         nc.setDefaults()
 
-        for dac in xrange(1024):
+        for dac in range(1024):
             ideal_volt = float(dac)/nc.max_fg_value*nc.max_techn_volt
             self.assertEqual(nc.ideal_volt_to_dac(ideal_volt), dac)
 
@@ -517,7 +517,7 @@ class TestPyCalibtic(unittest.TestCase):
     def test_neuron_calibration_parameter_to_string(self):
         enum = cal.NeuronCalibrationParameters.Calibrations.calib
 
-        for name, parameter in enum.names.iteritems():
+        for name, parameter in enum.names.items():
             self.assertEqual(name, cal.to_string(parameter))
 
 if __name__ == '__main__':

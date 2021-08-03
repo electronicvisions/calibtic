@@ -99,62 +99,62 @@ if __name__ == "__main__":
     # tau_refrac
     param = pyhalbe.HICANN.neuron_parameter.I_pl
     domain = extract_domain_tau_refrac(nc, param)
-    print param, domain
+    print(param, domain)
 
     # tau_w
     param = pyhalbe.HICANN.neuron_parameter.I_radapt
     domain = extract_domain_tau_w(nc, param)
-    print param, domain
+    print(param, domain)
 
     # tau_syn
     param = pyhalbe.HICANN.neuron_parameter.V_syntcx
     domain = extract_domain_tau_syn(nc,param)
-    print param, domain
+    print(param, domain)
 
     param = pyhalbe.HICANN.neuron_parameter.V_syntci
     domain = extract_domain_tau_syn(nc,param)
-    print param, domain
+    print(param, domain)
 
     # voltages
     params = [nrn_param.E_l, nrn_param.E_synx, nrn_param.E_syni,nrn_param.V_exp, nrn_param.V_t]
     for param in params:
         domain = extract_domain_voltage(nc,param)
-        print param, domain
+        print(param, domain)
 
     # currents
     # I_gl
     param = nrn_param.I_gl
     domain = extract_domain_current(nc,param)
-    print param, domain
+    print(param, domain)
     # find minimum
     current = nc.at(param).apply(0)
     dac = int(current/max_current*1023)+1
-    print dac
+    print(dac)
     current = max_current*dac/1023
     min = nc.at(param).find_real_roots(current,False)
-    print "min:", min
+    print("min:", min)
 
 
     # I_gladapt
     param = nrn_param.I_gladapt
     domain = extract_domain_current(nc,param)
-    print param, domain
+    print(param, domain)
 
     # I_fire (b)
     param = nrn_param.I_fire
     domain = extract_domain_current(nc,param)
-    print param, domain
+    print(param, domain)
     # find minimum
     current = nc.at(param).apply(0)
     dac = int(current/max_current*1023)+1
-    print dac
+    print(dac)
     current = max_current*dac/1023
     min = nc.at(param).find_real_roots(current,False)
-    print "min:", min
+    print("min:", min)
 
     # I_rexp delta_T
     param = nrn_param.I_rexp
     domain = extract_domain_current(nc,param)
-    print param, domain
-    print nc.at(param)
+    print(param, domain)
+    print(nc.at(param))
 

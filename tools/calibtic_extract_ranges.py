@@ -13,8 +13,8 @@ def nice_limits(limits):
     return "({0:.3g}, {1:.3g})".format(*limits)
 
 def pprint_ranges_dict(ranges):
-    for name,limits in ranges.items():
-        print name,":", nice_limits(limits)
+    for name,limits in list(ranges.items()):
+        print(name,":", nice_limits(limits))
 
 nrn_param = pyhalbe.HICANN.neuron_parameter
 
@@ -62,7 +62,7 @@ def extract_bio_ranges(nc, shiftV, alphaV, speedup, cm_bio, bigcap):
     assert isinstance(bigcap, bool)
     cm_hw = nc.big_cap if bigcap else nc.small_cap
     bio_ranges = {}
-    for bio, hw in bio_to_hw_name.items():
+    for bio, hw in list(bio_to_hw_name.items()):
         if isinstance(nc.at(hw), cal.Polynomial):
             domain_range = nc.at(hw).getDomainBoundaries()
         elif isinstance(nc.at(hw), cal.Lookup):
@@ -104,12 +104,12 @@ def print_default_bio_ranges():
     nc_params.alphaV=5.
     speedup = 10000.
     bio_ranges = extract_bio_ranges(nc, nc_params.shiftV, nc_params.alphaV, speedup, cm_bio, nc_params.bigcap)
-    print "Bio ranges for parameters"
-    print "speedup:", speedup
-    print "shiftV:", nc_params.shiftV, "V"
-    print "alphaV:", nc_params.alphaV
-    print "bigcap:", nc_params.bigcap
-    print "cm_bio:", cm_bio, "nF"
+    print("Bio ranges for parameters")
+    print("speedup:", speedup)
+    print("shiftV:", nc_params.shiftV, "V")
+    print("alphaV:", nc_params.alphaV)
+    print("bigcap:", nc_params.bigcap)
+    print("cm_bio:", cm_bio, "nF")
     #pprint.pprint(bio_ranges)
     pprint_ranges_dict(bio_ranges)
 
@@ -124,7 +124,7 @@ def extract_hw_ranges(nc):
     when the reverse transformation is applied.
     """
     assert isinstance(nc, cal.NeuronCalibration)
-    hw_params = bio_to_hw_name.values()
+    hw_params = list(bio_to_hw_name.values())
     hw_ranges = {}
     for param in hw_params:
         if isinstance(nc.at(param), cal.Polynomial):
@@ -148,7 +148,7 @@ def print_default_hw_ranges():
     nc = cal.NeuronCalibration()
     nc.setDefaults()
     hw_ranges = extract_hw_ranges(nc)
-    print "DAC ranges:"
+    print("DAC ranges:")
     pprint.pprint(hw_ranges)
 
 def extract_hw_weight_range(src):
@@ -208,8 +208,8 @@ def print_default_hw_weight_range():
     src = cal.SynapseRowCalibration()
     src.setEssDefaults()
     hw_range = extract_hw_weight_range(src)
-    print "HW weight range:"
-    print nice_limits(hw_range), "nS"
+    print("HW weight range:")
+    print(nice_limits(hw_range), "nS")
 
 def print_default_bio_weight_range(neuron_size):
     src = cal.SynapseRowCalibration()
@@ -218,12 +218,12 @@ def print_default_bio_weight_range(neuron_size):
     cm_bio = 0.281 # nS, default ADEX membrane capacitance
     speedup = 10000.
     bio_weight_range = extract_bio_weight_range(src, speedup, cm_bio, nc_params.bigcap, neuron_size)
-    print "Bio weight range for parameters"
-    print "speedup:", speedup
-    print "bigcap:", nc_params.bigcap
-    print "cm_bio:", cm_bio, "nF"
-    print "neuron_size:", neuron_size
-    print "weight:", nice_limits(bio_weight_range), "uS"
+    print("Bio weight range for parameters")
+    print("speedup:", speedup)
+    print("bigcap:", nc_params.bigcap)
+    print("cm_bio:", cm_bio, "nF")
+    print("neuron_size:", neuron_size)
+    print("weight:", nice_limits(bio_weight_range), "uS")
 
 if __name__ == "__main__":
     print_default_bio_ranges()
