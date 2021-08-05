@@ -4,6 +4,14 @@
 #include <boost/serialization/serialization.hpp>
 #include <boost/serialization/nvp.hpp>
 #include <boost/serialization/map.hpp>
+
+// GCCXML has problems with atomics -> removed before shared_prt is included
+#ifdef PYPLUSPLUS
+#undef __ATOMIC_RELAXED
+#undef __ATOMIC_ACQUIRE
+#undef __ATOMIC_RELEASE
+#undef __ATOMIC_ACQ_REL
+#endif // PYPLUSPLUS
 #include <boost/serialization/shared_ptr.hpp>
 
 #include "calibtic/Base.h"
