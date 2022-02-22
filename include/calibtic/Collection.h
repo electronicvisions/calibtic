@@ -10,7 +10,6 @@
 #undef __ATOMIC_RELAXED
 #undef __ATOMIC_ACQUIRE
 #undef __ATOMIC_RELEASE
-#undef __ATOMIC_ACQ_REL
 #endif // PYPLUSPLUS
 #include <boost/serialization/shared_ptr.hpp>
 
