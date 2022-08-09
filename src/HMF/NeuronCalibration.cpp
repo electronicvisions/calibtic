@@ -870,7 +870,15 @@ HWNeuronParameter NeuronCalibration::_applyNeuronCalibration(
 
 	// excitatory & inhibitory reversal potential
 	try {
-		h[HICANN::neuron_parameter::E_synx] = to_dac(scaleVoltage(p.e_rev_E, params.shiftV, params.alphaV), Calibrations::E_synx);
+		auto scaled_voltage = scaleVoltage(p.e_rev_E, params.shiftV, params.alphaV);
+		if (scaled_voltage > 1.4) {
+			LOG4CXX_WARN(
+			    _log, "Calibtic::NeuronCalibration: Esynx is set to a hardware value of "
+			              << scaled_voltage
+			              << ". Above 1.4V, calibration shows a saturation of the reversal "
+			                 "potential. Consider using a different parameter transformation.");
+		}
+		h[HICANN::neuron_parameter::E_synx] = to_dac(scaled_voltage, Calibrations::E_synx);
 	} catch (const std::exception& e) {
 		LOG4CXX_WARN(_log, "Calibtic::NeuronCalibration: cannot calibrate E_synx, because: " << e.what());
 	}
