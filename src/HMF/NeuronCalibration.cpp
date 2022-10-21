@@ -405,6 +405,9 @@ void NeuronCalibration::populateWithDefault(NeuronCalibration* cal) const
 	cal->reset(Calibrations::V_convoffx, Constant::create(1023));
 
 	cal->reset(Calibrations::BigcapToSmallcap, Constant::create(1. / big_to_smallcap_tau_m_factor));
+
+	// ReadoutShift
+	cal->reset(Calibrations::ReadoutShift, Polynomial::create({0.}));
 }
 
 NeuronCalibration::NeuronCalibration(bool has_default) :
