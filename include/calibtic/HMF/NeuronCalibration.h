@@ -10,7 +10,16 @@
 #include "calibtic/Calibration.h"
 #include "calibtic/HMF/HWNeuronParameter.h"
 #include "euter/cellparameters.h"
+// GCCXML doesn't like the new log4cxx headers, avoid including them
+#ifdef PYPLUSPLUS
+#include <boost/shared_ptr.hpp>
+namespace log4cxx {
+class Logger;
+typedef boost::shared_ptr<log4cxx::Logger> LoggerPtr;
+}
+#else
 #include <log4cxx/logger.h>
+#endif // PYPLUSPLUS
 #include <vector>
 
 namespace HMF {
@@ -299,6 +308,7 @@ namespace HMF {
 template<typename Archiver>
 void NeuronCalibration::serialize(Archiver& ar, unsigned int const version)
 {
+#ifndef PYPLUSPLUS
 	using namespace boost::serialization;
 
 	switch (version) {
@@ -321,6 +331,7 @@ void NeuronCalibration::serialize(Archiver& ar, unsigned int const version)
 			    "calibtic::NeuronCalibration unknown serialization version");
 		}
 	}
+#endif // !PYPLUSPLUS
 }
 
 } // HMF
