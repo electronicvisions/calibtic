@@ -9,7 +9,7 @@
 #include "calibtic/backend/Library.h"
 #include "calibtic/backend/Backend.h"
 
-#include "logging_ctrl.h"
+#include "logger/log4cxx/logging_ctrl.h"
 
 template<typename T>
 typename std::enable_if<std::is_arithmetic<T>::value, T>::type

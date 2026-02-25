@@ -6,7 +6,7 @@
 
 // halbe api
 #include "hal/HICANN/FGControl.h"
-#include "logger.h"
+#include "logger/log4cxx/logger.h"
 
 #define HICANN_PARAM_SEQ BOOST_PP_VARIADIC_TO_SEQ(HICANN_PARAM_VARIADIC)
 

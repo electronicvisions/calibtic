@@ -5,7 +5,7 @@
 #include "calibtic/util.h"
 
 #include <type_traits>
-#include "logger.h"
+#include "logger/log4cxx/logger.h"
 
 #include "calibtic/HMF/NeuronCalibration.h"
 

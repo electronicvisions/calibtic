@@ -106,7 +106,7 @@ def build(bld):
                 'euter',
                 'pythonic',
                 'cellparameters_access',
-                'logger_obj',
+                'logger',
                 ],
             install_path    = '${PREFIX}/lib',
     )
